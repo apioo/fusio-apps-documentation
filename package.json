@@ -1,6 +1,6 @@
 {
   "name": "evid",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Web API documentation viewer for the PSX framework",
   "main": "Gruntfile.js",
   "author": "Christoph Kappestein",
