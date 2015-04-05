@@ -1,0 +1,7 @@
+{
+  "name": "evid",
+  "dependencies": {
+    "bootstrap": "~3.3",
+    "highlightjs": "~8"
+  }
+}
