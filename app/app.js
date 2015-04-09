@@ -109,6 +109,7 @@
 				} else {
 					$('#evid-resource-nav a:first').trigger('click');
 				}
+
 			} else {
 				location.hash = '/' + path;
 				$('#evid-resource-doc').html('<div class="alert alert-info" role="alert">No API documentation available</div>');
@@ -241,11 +242,18 @@
 
 				if ($.isArray(resp.routings)) {
 					for (var i = 0; i < resp.routings.length; i++) {
-						if ($.inArray(resp.routings[i].path, evid.config.exclude) != -1) {
-							continue;
+						// check exclude
+						var exclude = false;
+						for (var j = 0; j < evid.config.exclude.length; j++) {
+							if (resp.routings[i].path.match(evid.config.exclude[j])) {
+								exclude = true;
+								break;
+							}
 						}
 
-						$('.evid-navigation ul').append('<li><a href="#' + resp.routings[i].path + '" data-path="' + resp.routings[i].path + '" data-version="' + resp.routings[i].version + '" onclick="evid.loadApi(this);">' + resp.routings[i].path + '</a></li>');
+						if (!exclude) {
+							$('.evid-navigation ul').append('<li><a href="#' + resp.routings[i].path + '" data-path="' + resp.routings[i].path + '" data-version="' + resp.routings[i].version + '" onclick="evid.loadApi(this);">' + resp.routings[i].path + '</a></li>');
+						}
 					}
 
 					evid.routings = resp.routings;
