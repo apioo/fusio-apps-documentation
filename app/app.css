@@ -31,13 +31,15 @@ pre
     z-index:1000;
     display:block;
     background-color:#021c35;
+    overflow:auto;
   }
 }
 
 .evid-navigation
 {
 	background-color:#021c35;
-	overflow:hidden;
+	overflow-x:hidden;
+	padding-bottom:24px;
 }
 
 .evid-navigation ul
