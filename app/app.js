@@ -120,9 +120,9 @@
 			location.hash = '/' + path;
 			var data = resp.responseJSON;
 			if (data.hasOwnProperty('success') && data.success === false) {
-				$('#resource-doc').html('<div class="alert alert-danger" role="alert">' + data.message + '</div><pre>' + data.trace + '</pre>');
+				$('#evid-resource-doc').html('<div class="alert alert-danger" role="alert">' + data.message + '</div><pre>' + data.trace + '</pre>');
 			} else {
-				$('#resource-doc').html('<div class="alert alert-danger" role="alert">An unknown error occured</div><pre>' + resp.responseText + '</pre>');
+				$('#evid-resource-doc').html('<div class="alert alert-danger" role="alert">An unknown error occured</div><pre>' + resp.responseText + '</pre>');
 			}
 		};
 
