@@ -4,6 +4,7 @@ var evid = angular.module('evid', [
   'ngRoute',
   'ngSanitize',
   'ngMaterial',
+  'hljs',
   'evid.definition',
   'evid.schema',
   'evid.api',
@@ -19,11 +20,6 @@ evid.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue')
     .accentPalette('grey');
-});
-
-evid.config(function(hljsServiceProvider) {
-  hljsServiceProvider.setOptions({
-  });
 });
 
 evid.filter('slugify', function() {

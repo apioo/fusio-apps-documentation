@@ -28,6 +28,7 @@ module.exports = function(grunt){
           },
         },
         src: [
+          './app/bower_components/highlightjs/highlight.pack.min.js',
           './app/bower_components/angular/angular.min.js',
           './app/bower_components/angular-animate/angular-animate.min.js',
           './app/bower_components/angular-aria/angular-aria.min.js',
@@ -35,7 +36,7 @@ module.exports = function(grunt){
           './app/bower_components/angular-material/angular-material.min.js',
           './app/bower_components/angular-route/angular-route.min.js',
           './app/bower_components/angular-sanitize/angular-sanitize.min.js',
-          './app/bower_components/highlightjs/highlight.pack.min.js',
+          './app/bower_components/angular-highlightjs/angular-highlightjs.min.js',
           './build/evid-app.min.js'
         ],
         dest: './build/evid.min.js'
