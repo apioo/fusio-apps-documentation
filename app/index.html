@@ -7,20 +7,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>API Documentation</title>
-  <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-  <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css">
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="app.css">
-  <script src="../bower_components/angular/angular.js"></script>
-  <script src="../bower_components/angular-animate/angular-animate.js"></script>
-  <script src="../bower_components/angular-aria/angular-aria.js"></script>
-  <script src="../bower_components/angular-loader/angular-loader.js"></script>
-  <script src="../bower_components/angular-material/angular-material.js"></script>
-  <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
-  <script src="../bower_components/angular-route/angular-route.js"></script>
-  <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-loader/angular-loader.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="components/definition.js"></script>
   <script src="components/schema.js"></script>
   <script src="api.js"></script>
@@ -35,21 +33,13 @@
   /**
    * Paths which should be excluded from the documentation
    */
-  evid.value('exclude', ['/authorization/(.*)']);
+  evid.value('exclude', []);
 
   /**
-   * Optional menu entries 
+   * Optional menu entries. Each menu entry must have the following format
+   * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
    */
-  evid.value('menu', [{
-      title: 'Getting started',
-      icon: 'home',
-      href: 'introduction.htm'
-  },{
-      title: 'Authentication',
-      icon: 'lock',
-      href: 'about.htm'
-  }]);
-
+  evid.value('menu', []);
   </script>
 </head>
 <body layout="column" ng-controller="AppCtrl">
@@ -74,7 +64,7 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
       <md-content class="evid-menu">
         <md-list>
-          <md-subheader class="md-primary">Overview</md-subheader>
+          <md-subheader class="md-primary" ng-if="menus.length > 0">Overview</md-subheader>
           <md-list-item ng-repeat="menu in menus">
             <md-button class="evid-menu-item" ng-href="#/page/{{ menu.title|slugify }}"><md-icon md-font-library="material-icons">{{ menu.icon }}</md-icon> {{ menu.title }}</md-button>
           </md-list-item>

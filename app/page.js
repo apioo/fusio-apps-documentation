@@ -9,35 +9,35 @@ angular.module('evid.page', ['ngRoute'])
   });
 }])
 
-.controller('PageCtrl', ['$scope', '$http', '$routeParams', '$filter', 'menu', function($scope, $http, $routeParams, $filter, menu){
+.controller('PageCtrl', ['$scope', '$http', '$routeParams', '$filter', 'menu', function($scope, $http, $routeParams, $filter, menu) {
 
-    $scope.title;
-    $scope.body;
+  $scope.title;
+  $scope.body;
 
-    $scope.loadDocument = function(){
-        var slugify = $filter('slugify');
-        var item = false;
+  $scope.loadDocument = function() {
+    var slugify = $filter('slugify');
+    var item = false;
 
-        for (var i = 0; i < menu.length; i++) {
-            if (slugify(menu[i].title) == $routeParams.page) {
-                item = menu[i];
-                break;
-            }
-        }
+    for (var i = 0; i < menu.length; i++) {
+      if (slugify(menu[i].title) == $routeParams.page) {
+        item = menu[i];
+        break;
+      }
+    }
 
-        if (item) {
-            $scope.title = item.title;
+    if (item) {
+      $scope.title = item.title;
 
-            $http.get(item.href).success(function(resp){
-                $scope.body = resp;
-            }).error(function(resp){
-                $scope.body = resp;
-            });
-        } else {
-            $scope.title = 'Page not found';
-        }
-    };
+      $http.get(item.href).success(function(resp) {
+        $scope.body = resp;
+      }).error(function(resp) {
+        $scope.body = resp;
+      });
+    } else {
+      $scope.title = 'Page not found';
+    }
+  };
 
-    $scope.loadDocument();
+  $scope.loadDocument();
 
 }]);

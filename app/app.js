@@ -21,6 +21,11 @@ evid.config(function($mdThemingProvider) {
     .accentPalette('grey');
 });
 
+evid.config(function(hljsServiceProvider) {
+  hljsServiceProvider.setOptions({
+  });
+});
+
 evid.filter('slugify', function() {
   return function(input) {
     if (input) {
@@ -30,28 +35,28 @@ evid.filter('slugify', function() {
   };
 });
 
-evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'url', 'menu', 'definition', function($scope, $http, $mdSidenav, url, menu, definition){
+evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'url', 'menu', 'definition', function($scope, $http, $mdSidenav, url, menu, definition) {
 
-    $scope.menus = menu;
-    $scope.routings = [];
+  $scope.menus = menu;
+  $scope.routings = [];
 
-    $scope.toggleSidebar = function(){
-        $mdSidenav('left').toggle();
-    };
+  $scope.toggleSidebar = function() {
+    $mdSidenav('left').toggle();
+  };
 
-    $scope.loadRoutings = function(){
-        $http.get(url).success(function(data){
+  $scope.loadRoutings = function() {
+    $http.get(url).success(function(data) {
           definition.setDefinition(data);
 
           $scope.routings = definition.getRoutings();
         });
-    };
+  };
 
-    $scope.loadRoutings();
+  $scope.loadRoutings();
 
 }]);
 
-evid.run(function(){
+evid.run(function() {
 
 });
 
