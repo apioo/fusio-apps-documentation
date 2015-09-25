@@ -9,6 +9,10 @@ module.exports = function(grunt){
       dist: {
         files: {
           './build/evid-app.min.js': [
+            './app/components/definition.js',
+            './app/components/schema.js',
+            './app/api.js',
+            './app/page.js',
             './app/app.js'
           ]
         }
@@ -24,12 +28,17 @@ module.exports = function(grunt){
           },
         },
         src: [
-          './bower_components/jquery/dist/jquery.min.js',
-          './bower_components/bootstrap/dist/js/bootstrap.min.js',
-          './bower_components/highlightjs/highlight.pack.js',
+          './app/bower_components/angular/angular.min.js',
+          './app/bower_components/angular-animate/angular-animate.min.js',
+          './app/bower_components/angular-aria/angular-aria.min.js',
+          './app/bower_components/angular-loader/angular-loader.min.js',
+          './app/bower_components/angular-material/angular-material.min.js',
+          './app/bower_components/angular-route/angular-route.min.js',
+          './app/bower_components/angular-sanitize/angular-sanitize.min.js',
+          './app/bower_components/highlightjs/highlight.pack.min.js',
           './build/evid-app.min.js'
         ],
-        dest: './dist/evid.min.js'
+        dest: './build/evid.min.js'
       },
       dist_css: {
         options: {
@@ -40,27 +49,17 @@ module.exports = function(grunt){
           },
         },
         src: [
-          './bower_components/bootstrap/dist/css/bootstrap.min.css',
-          './bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-          './build/highlightjs-theme.min.css'
+          './app/bower_components/angular-material/angular-material.css',
+          './app/bower_components/highlightjs/styles/github.css',
+          './app/app.css'
         ],
-        dest: './dist/evid.min.css'
-      }
-    },
-    copy: {
-      app_css: {
-        src: './app/app.css',
-        dest: './dist/app.css',
-      },
-      config_js: {
-        src: './app/config.js',
-        dest: './dist/config.js',
+        dest: './build/evid.min.css'
       }
     },
     cssmin: {
-      highlite_style: {
-        src: './bower_components/highlightjs/styles/github.css',
-        dest: './build/highlightjs-theme.min.css',
+      compress_css: {
+        src: './build/evid.min.css',
+        dest: './build/evid.min.css',
       }
     }
   });
@@ -70,6 +69,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['uglify', 'cssmin', 'concat', 'copy']);
+  grunt.registerTask('default', ['uglify', 'concat', 'cssmin']);
 
 };

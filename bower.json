@@ -1,7 +1,21 @@
 {
   "name": "evid",
+  "description": "A API documentation viewer for PSX",
+  "version": "0.1.0",
+  "homepage": "https://github.com/k42b3/evid",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
-    "bootstrap": "~3.3",
-    "highlightjs": "~8"
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-animate": "~1.4.0",
+    "angular-aria": "~1.4.0",
+    "angular-sanitize": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "angular-material": "~0.11",
+    "material-design-icons": "~2.0.0",
+    "highlightjs": "~8.8.0",
+    "angular-highlightjs": "~0.4.3"
   }
 }
