@@ -7,14 +7,25 @@ var evid = angular.module('evid', [
   'ngAnimate',
   'hljs',
   'evid.definition',
+  'evid.registry',
   'evid.schema',
   'evid.api',
   'evid.page'
 ]);
 
 evid.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.
-    otherwise({redirectTo: '/'});
+  $routeProvider
+    .when('/api/:api*?', {
+      templateUrl: 'partials/api.html',
+      controller: 'ApiCtrl'
+    })
+    .when('/page/:page?', {
+      templateUrl: 'partials/page.html',
+      controller: 'PageCtrl'
+    })
+    .otherwise({
+      redirectTo: '/page'
+    });
 }]);
 
 evid.config(function($mdThemingProvider) {
@@ -42,11 +53,9 @@ evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'url', 'menu', 'def
   };
 
   $scope.loadRoutings = function() {
-    $http.get(url).success(function(data) {
-          definition.setDefinition(data);
-
-          $scope.routings = definition.getRoutings();
-        });
+    definition.initialize().then(function(def){
+      $scope.routings = def.getRoutings();
+    });
   };
 
   $scope.loadRoutings();
