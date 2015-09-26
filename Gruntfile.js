@@ -10,6 +10,7 @@ module.exports = function(grunt){
         files: {
           './build/evid-app.min.js': [
             './app/components/definition.js',
+            './app/components/registry.js',
             './app/components/schema.js',
             './app/api.js',
             './app/page.js',
@@ -37,7 +38,8 @@ module.exports = function(grunt){
           './app/bower_components/angular-route/angular-route.min.js',
           './app/bower_components/angular-sanitize/angular-sanitize.min.js',
           './app/bower_components/angular-highlightjs/angular-highlightjs.min.js',
-          './build/evid-app.min.js'
+          './build/evid-app.min.js',
+          './build/evid-templates.min.js'
         ],
         dest: './build/evid.min.js'
       },
@@ -60,7 +62,25 @@ module.exports = function(grunt){
     cssmin: {
       compress_css: {
         src: './build/evid.min.css',
-        dest: './build/evid.min.css',
+        dest: './build/evid.min.css'
+      }
+    },
+    ngtemplates: {
+      evid: {
+        src: 'app/partials/*.html',
+        dest: './build/evid-templates.min.js',
+        options: {
+          htmlmin: {
+            collapseBooleanAttributes: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true,
+            removeComments: true,
+            removeEmptyAttributes: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true
+          }
+        }
       }
     }
   });
@@ -69,7 +89,8 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-angular-templates');
 
-  grunt.registerTask('default', ['uglify', 'concat', 'cssmin']);
+  grunt.registerTask('default', ['uglify', 'ngtemplates', 'concat', 'cssmin']);
 
 };
