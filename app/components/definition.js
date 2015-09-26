@@ -37,9 +37,11 @@ angular.module('evid.definition', [])
   }
 
   this.getLinkByRel = function(rel) {
-    for (var i = 0; i < this.api.links.length; i++) {
-      if (this.api.links[i].rel == rel) {
-        return this.api.links[i].href;
+    if (this.api && this.api.links && angular.isArray(this.api.links)) {
+      for (var i = 0; i < this.api.links.length; i++) {
+        if (this.api.links[i].rel == rel) {
+          return this.api.links[i].href;
+        }
       }
     }
 

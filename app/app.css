@@ -19,33 +19,36 @@
 }
 
 .evid-schema-table {
-    font-family: 'Inconsolata', monospace;
-    font-size: 1.2em;
-    width: 100%;
-    border-spacing: 0;
-    padding: 0 10px;
-    margin: 0;
-    margin-bottom: 16px;
+}
+
+.evid-schema-table table {
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.2em;
+  width: 99%;
+  border-spacing: 0;
+  padding: 0 10px;
+  margin: 0;
+  margin-bottom: 32px;
 }
 
 .evid-schema-table tr td {
-    border-bottom: 1px solid rgba(0,0,0,.12);
-    padding: 12px 6px;
-    margin: 0;
-    font-size: 0.8em;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  padding: 12px 6px;
+  margin: 0;
+  font-size: 0.8em;
 }
 
 .evid-schema-table tr th {
-    border-bottom: 1px solid rgba(0,0,0,.4);
-    padding: 12px 6px;
-    margin: 0;
-    font-size: 0.7em;
-    font-weight: normal;
-    text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,.4);
+  padding: 12px 6px;
+  margin: 0;
+  font-size: 0.7em;
+  font-weight: normal;
+  text-align: left;
 }
 
 .evid-loader {
-    background-color: rgb(187,222,251);
-    height: 5px;
+  background-color: rgb(187,222,251);
+  height: 5px;
 }
 

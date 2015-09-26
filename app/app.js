@@ -4,6 +4,7 @@ var evid = angular.module('evid', [
   'ngRoute',
   'ngSanitize',
   'ngMaterial',
+  'ngAnimate',
   'hljs',
   'evid.definition',
   'evid.schema',

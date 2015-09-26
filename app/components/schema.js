@@ -25,14 +25,8 @@ angular.module('evid.schema', [])
     // request
     var request = this.getRequest(method);
     if (request) {
-      html += '<section>';
       html += '<md-subheader class="md-primary">' + methodName + ' Request</md-subheader>';
-      html += '<md-list layout-padding>';
-      html += '<md-list-item>';
-      html += request;
-      html += '</md-list-item>';
-      html += '</md-list>';
-      html += '</section>';
+      html += '<div class="evid-schema-table">' + request + '</div>';
     }
 
     // responses
@@ -40,14 +34,8 @@ angular.module('evid.schema', [])
     for (var i = 0; i < statusCodes.length; i++) {
       var response = this.getResponse(method, statusCodes[i]);
       if (response) {
-        html += '<section>';
         html += '<md-subheader class="md-primary">' + methodName + ' Response - ' + statusCodes[i] + '</md-subheader>';
-        html += '<md-list layout-padding>';
-        html += '<md-list-item>';
-        html += response;
-        html += '</md-list-item>';
-        html += '</md-list>';
-        html += '</section>';
+        html += '<div class="evid-schema-table">' + response + '</div>';
       }
     }
 
@@ -131,7 +119,7 @@ angular.module('evid.schema', [])
       }
 
       html += '<md-subheader class="md-hue-1"><strong>' + title + '</strong></md-subheader>';
-      html += '<table class="evid-schema-table">';
+      html += '<table>';
       html += '<colgroup>';
       html += '    <col width="20%">';
       html += '    <col width="20%">';
