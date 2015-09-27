@@ -1,25 +1,39 @@
 
 <md-toolbar class="md-toolbar-tools md-accent">
     <h2>{{ api.path }}</h2>
+    <span ng-if="api.version" class="evid-api-version">v{{ api.version }}</span>
     <span flex></span>
-    <span ng-if="api.version">Version {{ api.version }}</span>
-    <!--
-    <md-menu>
-        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-            <md-icon md-menu-origin md-font-library="material-icons">menu</md-icon>
+    <md-button aria-label="Send request" class="md-icon-button evid-api-export" ng-click="showConsole()">
+        <md-icon md-menu-origin md-font-library="material-icons">send</md-icon>
+    </md-button>
+
+    <md-menu ng-if="endpoint">
+        <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
+            <md-icon md-menu-origin md-font-library="material-icons">info</md-icon>
         </md-button>
-        <md-menu-content width="3">
-            <md-menu-item ng-repeat="version in api.versions">
-                <md-button ng-click="ctrl.announceClick($index)">
-                    <md-icon md-menu-align-target md-font-library="material-icons">build</md-icon> Version {{version.version}}
-                </md-button>
+        <md-menu-content width="4">
+            <md-menu-item>
+                <md-input-container style="padding-bottom:0px;">
+                    <label>Endpoint:</label>
+                    <input type="text" readonly ng-model="endpoint">
+                </md-input-container>
             </md-menu-item>
         </md-menu-content>
     </md-menu>
-    -->
+
+    <md-menu ng-if="api.links.length > 0">
+        <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
+            <md-icon md-menu-origin md-font-library="material-icons">archive</md-icon>
+        </md-button>
+        <md-menu-content width="3">
+            <md-menu-item ng-repeat="link in api.links">
+                <md-button href="{{ link.href }}" target="_blank">{{ link.rel|ucfirst }}</md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
 </md-toolbar>
 
-<md-tabs md-dynamic-height>
+<md-tabs md-dynamic-height md-selected="selectedMethod">
     <md-tab ng-repeat="(methodName, method) in methods" label="{{ methodName }}">
         <md-content ng-bind-html="method" flex></md-content>
     </md-tab>

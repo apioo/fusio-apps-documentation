@@ -43,6 +43,15 @@ evid.filter('slugify', function() {
   };
 });
 
+evid.filter('ucfirst', function() {
+  return function(input) {
+    if (input) {
+      return input.charAt(0).toUpperCase() + input.substring(1);
+    }
+    return '';
+  };
+});
+
 evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'url', 'menu', 'definition', function($scope, $http, $mdSidenav, url, menu, definition) {
 
   $scope.menus = menu;
