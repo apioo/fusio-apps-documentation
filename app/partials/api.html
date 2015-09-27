@@ -7,20 +7,6 @@
         <md-icon md-menu-origin md-font-library="material-icons">send</md-icon>
     </md-button>
 
-    <md-menu ng-if="endpoint">
-        <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
-            <md-icon md-menu-origin md-font-library="material-icons">info</md-icon>
-        </md-button>
-        <md-menu-content width="4">
-            <md-menu-item>
-                <md-input-container style="padding-bottom:0px;">
-                    <label>Endpoint:</label>
-                    <input type="text" readonly ng-model="endpoint">
-                </md-input-container>
-            </md-menu-item>
-        </md-menu-content>
-    </md-menu>
-
     <md-menu ng-if="api.links.length > 0">
         <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
             <md-icon md-menu-origin md-font-library="material-icons">archive</md-icon>
