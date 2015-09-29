@@ -9,12 +9,10 @@
                 <label>URL</label>
                 <input type="text" ng-model="request.url">
             </md-input-container>
-            <!--
-            <md-input-container flex="20">
+            <md-input-container flex="30">
                 <label>Access-Token (OAuth2)</label>
                 <input type="text" ng-model="request.accessToken">
             </md-input-container>
-            -->
         </div>
         <md-input-container ng-if="request.method == 'POST' || request.method == 'PUT'">
             <label>Body</label>

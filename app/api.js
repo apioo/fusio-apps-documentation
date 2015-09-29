@@ -129,15 +129,28 @@ angular.module('evid.api', [])
         $scope.response.body = JSON.stringify(resp.data, null, 4);
       };
 
-      if ($scope.request.method == 'GET') {
-        $http.get($scope.request.url).then(callback, callback);
-      } else if ($scope.request.method == 'POST') {
-        $http.post($scope.request.url, $scope.request.body).then(callback, callback);
-      } else if ($scope.request.method == 'PUT') {
-        $http.put($scope.request.url, $scope.request.body).then(callback, callback);
-      } else if ($scope.request.method == 'DELETE') {
-        $http.delete($scope.request.url).then(callback, callback);
+      var headers = null;
+      var withCredentials = false;
+      if ($scope.request.accessToken) {
+        headers = {'Authorization': 'Bearer ' + $scope.request.accessToken};
+        withCredentials = true;
       }
+
+      var body = null;
+      if ($scope.request.method == 'POST' || $scope.request.method == 'PUT') {
+        body = $scope.request.body;
+      }
+
+      var conf = {
+        method: $scope.request.method,
+        url: $scope.request.url,
+        data: body,
+        headers: headers,
+        cache: false,
+        withCredentials: withCredentials
+      };
+
+      $http(conf).then(callback, callback);
     };
 
     $scope.close = function() {
