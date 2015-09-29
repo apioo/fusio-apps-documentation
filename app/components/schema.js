@@ -39,23 +39,27 @@ angular.module('evid.schema', [])
       html += '</div>';
 
       return html;
-    }
+    };
 
-    this.getRequest = function(method) {
+    this.getJsonSampleRequest = function(method) {
+      return this.getRequest(method, 'json');
+    };
+
+    this.getRequest = function(method, format) {
       if (method && method.request) {
         var data = this.getPointer(method.request);
         if (data) {
-          return this.transformSchema(data);
+          return this.transformSchema(data, format);
         }
       }
       return null;
     };
 
-    this.getResponse = function(method, statusCode) {
+    this.getResponse = function(method, statusCode, format) {
       if (method && method.responses && method.responses[statusCode]) {
         var data = this.getPointer(method.responses[statusCode]);
         if (data) {
-          return this.transformSchema(data);
+          return this.transformSchema(data, format);
         }
       }
       return null;
@@ -101,11 +105,15 @@ angular.module('evid.schema', [])
       return schema;
     };
 
-    this.transformSchema = function(schema) {
-      return this.buildObject(this.resolveRef(schema));
+    this.transformSchema = function(schema, format) {
+      if (format == 'json') {
+        return this.buildJsonObject(this.resolveRef(schema));
+      } else {
+        return this.buildHtmlObject(this.resolveRef(schema));
+      }
     };
 
-    this.buildObject = function(schema) {
+    this.buildHtmlObject = function(schema) {
       var html = '';
       if (schema.properties) {
         var references = [];
@@ -174,7 +182,7 @@ angular.module('evid.schema', [])
         html += '</table>';
 
         for (var i = 0; i < references.length; i++) {
-          html += this.buildObject(references[i]);
+          html += this.buildHtmlObject(references[i]);
         }
       }
 
@@ -212,6 +220,50 @@ angular.module('evid.schema', [])
       html += '</dl>';
 
       return html;
+    };
+
+    this.buildJsonObject = function(schema) {
+      var data = {};
+
+      if (schema.properties) {
+        for (var propertyName in schema.properties) {
+          var property = schema.properties[propertyName];
+
+          if (property.$ref) {
+            property = this.resolveRef(property);
+          }
+
+          var type = property.type ? property.type : 'string';
+
+          if (type == 'object') {
+            var object = this.resolveRef(property);
+            data[propertyName] = this.buildJsonObject(object);
+          } else if (type == 'array') {
+            var result = [];
+            if (property.items) {
+              var object = this.resolveRef(property.items);
+              if (object.type == 'object') {
+                result.push(this.buildJsonObject(object));
+              } else {
+                result.push('');
+              }
+            }
+            data[propertyName] = result;
+          } else if (type == 'integer') {
+            data[propertyName] = 0;
+          } else if (type == 'number') {
+            data[propertyName] = 0.0;
+          } else if (type == 'null') {
+            data[propertyName] = null;
+          } else if (type == 'boolean') {
+            data[propertyName] = false;
+          } else {
+            data[propertyName] = '';
+          }
+        }
+      }
+
+      return data;
     };
 
   }

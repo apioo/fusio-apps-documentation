@@ -6,7 +6,7 @@ angular.module('evid.definition', [])
 
   /**
    * Requests the API definition of the endpoint which was provided through the
-   * url config value. Returns a promise which contains the definition if it 
+   * url config value. Returns a promise which contains the definition if it
    * gets resolved. The response is saved in the global registry so we make the
    * http request only once
    */
@@ -57,6 +57,14 @@ angular.module('evid.definition', [])
 
       return routings;
     }
+
+    this.getFirstRoute = function() {
+      var routings = this.getRoutings();
+      if (routings.length > 0) {
+        return routings[0];
+      }
+      return null;
+    };
 
     this.getLinkByRel = function(rel) {
       if (this.api && this.api.links && angular.isArray(this.api.links)) {

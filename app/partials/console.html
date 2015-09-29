@@ -18,7 +18,7 @@
         </div>
         <md-input-container ng-if="request.method == 'POST' || request.method == 'PUT'">
             <label>Body</label>
-            <textarea ng-model="request.body" class="evid-console-body" columns="1" rows="4" md-no-autogrow></textarea>
+            <textarea ng-model="request.body" class="evid-console-body"></textarea>
         </md-input-container>
         <md-subheader class="md-hue-1" ng-if="response.statusCode">{{ response.statusCode }} {{ response.statusText }}</md-subheader>
         <div layout="row" layout-sm="column" layout-align="space-around" ng-if="loading">

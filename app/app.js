@@ -24,7 +24,7 @@ evid.config(['$routeProvider', function($routeProvider) {
       controller: 'PageCtrl'
     })
     .otherwise({
-      redirectTo: '/page'
+      redirectTo: '/api/'
     });
 }]);
 

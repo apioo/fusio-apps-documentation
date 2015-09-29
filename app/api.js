@@ -13,7 +13,14 @@ angular.module('evid.api', [])
     definition.initialize().then(function(def) {
       var url = def.getLinkByRel('detail');
       if (url) {
-        var path = $routeParams.api ? $routeParams.api : '';
+        var path = $routeParams.api ? $routeParams.api : null;
+        if (!path) {
+          var route = def.getFirstRoute();
+          if (route) {
+            path = route.path;
+          }
+        }
+
         url = url.replace('{version}', '*');
         url = url.replace('{path}', path);
 
@@ -77,22 +84,22 @@ angular.module('evid.api', [])
   };
 
   $scope.getBodySample = function() {
-
     var methodName = $scope.getSelectedMethod();
-    if (methodName == 'GET') {
+    if (methodName == 'GET' || methodName == 'DELETE') {
       return '';
     }
 
     if ($scope.api.methods[methodName]) {
-      // @TODO build json sample from schema
-      return '{"foo": "bar"}';
-    }
+      var apiSchema = schema.create($scope.api);
+      var data = apiSchema.getJsonSampleRequest($scope.api.methods[methodName]);
 
-    return '';
+      return JSON.stringify(data, null, 4);
+    } else {
+      return '';
+    }
   };
 
   $scope.loadApi();
-
 
   function ConsoleCtrl($scope, $http, endpoint, method, body) {
 
