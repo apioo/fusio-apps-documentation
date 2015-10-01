@@ -67,7 +67,8 @@ module.exports = function(grunt){
     },
     ngtemplates: {
       evid: {
-        src: 'app/partials/*.html',
+        cwd: 'app',
+        src: 'partials/*.html',
         dest: './build/evid-templates.min.js',
         options: {
           htmlmin: {
