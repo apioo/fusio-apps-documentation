@@ -2,7 +2,7 @@
 
 angular.module('evid.definition', [])
 
-.service('definition', ['$http', '$q', 'url', 'registry', function definition($http, $q, url, registry) {;
+.service('definition', ['$http', '$q', 'url', 'registry', 'exclude', function definition($http, $q, url, registry, exclude) {;
 
   /**
    * Requests the API definition of the endpoint which was provided through the
@@ -19,7 +19,7 @@ angular.module('evid.definition', [])
 
     return $q(function(resolve, reject) {
       $http.get(url).then(function(response) {
-        registry.set('definition', new def(response.data));
+        registry.set('definition', new def(response.data, exclude));
         resolve(registry.get('definition'));
       }, function() {
         reject();
@@ -27,20 +27,21 @@ angular.module('evid.definition', [])
     });
   };
 
-  function def(api) {
+  function def(api, exclude) {
 
     this.api = api;
+    this.exclude = exclude;
 
     this.getRoutings = function() {
       var routings = [];
 
       // check whether the routing is not in the excluded list
       if (angular.isArray(this.api.routings)) {
-        if (angular.isArray(evid.exclude)) {
+        if (angular.isArray(this.exclude)) {
           for (var i = 0; i < this.api.routings.length; i++) {
             var exclude = false;
-            for (var j = 0; j < evid.exclude.length; j++) {
-              if (this.api.routings[i].path.match(evid.exclude[j])) {
+            for (var j = 0; j < this.exclude.length; j++) {
+              if (this.api.routings[i].path.match(this.exclude[j])) {
                 exclude = true;
                 break;
               }
