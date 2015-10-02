@@ -62,7 +62,7 @@ evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'url', 'menu', 'def
   };
 
   $scope.loadRoutings = function() {
-    definition.initialize().then(function(def){
+    definition.initialize().then(function(def) {
       $scope.routings = def.getRoutings();
     });
   };
