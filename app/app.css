@@ -68,3 +68,7 @@
 .hljs span {
   font-family: 'Inconsolata', monospace;
 }
+
+div[hljs] pre {
+  margin: 0;
+}
