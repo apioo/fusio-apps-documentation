@@ -5,7 +5,7 @@ angular.module('evid.page', [])
 .controller('PageCtrl', ['$scope', '$http', '$compile', '$sce', '$routeParams', '$filter', 'menu', function($scope, $http, $compile, $sce, $routeParams, $filter, menu) {
 
   $scope.title;
-  $scope.body;
+  $scope.href;
 
   $scope.loadDocument = function() {
     var slugify = $filter('slugify');
@@ -25,19 +25,10 @@ angular.module('evid.page', [])
 
     if (item) {
       $scope.title = item.title;
-
-      $http.get(item.href).then(function(resp) {
-        var linkFn = $compile(resp.data);
-        var el = linkFn($scope);
-
-        $scope.body = $sce.trustAsHtml(el.html());
-      }, function(resp) {
-        $scope.title = resp.statusText;
-        $scope.body = '';
-      });
+      $scope.href = item.href;
     } else {
       $scope.title = 'Page not found';
-      $scope.body = '';
+      $scope.href = null;
     }
   };
 
