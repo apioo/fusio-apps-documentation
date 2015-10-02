@@ -15,9 +15,13 @@ angular.module('evid.api', [])
       if (url) {
         var path = $routeParams.api ? $routeParams.api : null;
         if (!path) {
-          var route = def.getFirstRoute();
-          if (route) {
-            path = route.path;
+          if (def.hasEmptyRoute()) {
+            path = '/';
+          } else {
+            var route = def.getFirstRoute();
+            if (route) {
+              path = route.path;
+            }
           }
         }
 
@@ -29,7 +33,11 @@ angular.module('evid.api', [])
           if ($scope.api.methods) {
             var methods = {};
             for (var methodName in $scope.api.methods) {
-              methods[methodName] = $scope.getSchema(methodName, $scope.api.methods[methodName]);
+              var schema = $scope.getSchema(methodName, $scope.api.methods[methodName]);
+              if (!schema) {
+                schema = '<div class="md-padding md-default-theme">This API method provides no schema informations.</div>';
+              }
+              methods[methodName] = schema;
             }
 
             $scope.methods = methods;

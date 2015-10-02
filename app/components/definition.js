@@ -66,6 +66,16 @@ angular.module('evid.definition', [])
       return null;
     };
 
+    this.hasEmptyRoute = function() {
+      var routings = this.getRoutings();
+      for (var i = 0; i < routings.length; i++) {
+        if (routings[i].path == '/') {
+          return true;
+        }
+      }
+      return false;
+    };
+
     this.getLinkByRel = function(rel) {
       if (this.api && this.api.links && angular.isArray(this.api.links)) {
         for (var i = 0; i < this.api.links.length; i++) {
