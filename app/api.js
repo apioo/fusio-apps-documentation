@@ -43,7 +43,7 @@ angular.module('evid.api', [])
             $scope.methods = methods;
 
             // set endpoint
-            var endpoint = def.getLinkByRel('endpoint');
+            var endpoint = def.getLinkByRel('api');
             if (endpoint && $scope.api.path) {
               $scope.endpoint = endpoint + $scope.api.path.substring(1);
             }
