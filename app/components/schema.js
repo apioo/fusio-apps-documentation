@@ -124,6 +124,11 @@ angular.module('evid.schema', [])
         }
 
         html += '<md-subheader class="md-hue-1"><strong>' + title + '</strong></md-subheader>';
+
+        if (schema.description) {
+          html += '<p>' + schema.description + '</p>';
+        }
+
         html += '<table>';
         html += '<colgroup>';
         html += '    <col width="20%">';
