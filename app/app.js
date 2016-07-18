@@ -39,6 +39,7 @@ evid.filter('slugify', function() {
     if (input) {
       return input.toLowerCase().replace(/\W+/g, '-');
     }
+
     return '';
   };
 });
@@ -48,6 +49,7 @@ evid.filter('ucfirst', function() {
     if (input) {
       return input.charAt(0).toUpperCase() + input.substring(1);
     }
+
     return '';
   };
 });

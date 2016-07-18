@@ -191,7 +191,7 @@ angular.module('evid.schema', [])
           if (required) {
             html += '<td><span class="evid-property-required" title="required">' + propertyName + '</span></td>';
           } else {
-            html += '<td><span class="evid-property">' + propertyName + '</span></td>';  
+            html += '<td><span class="evid-property">' + propertyName + '</span></td>';
           }
 
           html += '<td>' + type + '</td>';

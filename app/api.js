@@ -37,6 +37,7 @@ angular.module('evid.api', [])
               if (!schema) {
                 schema = '<div class="md-padding md-default-theme">This API method provides no schema informations.</div>';
               }
+
               methods[methodName] = schema;
             }
 
@@ -86,8 +87,10 @@ angular.module('evid.api', [])
       if (i == $scope.selectedMethod) {
         return methodName;
       }
+
       i++;
     }
+
     return null;
   };
 
