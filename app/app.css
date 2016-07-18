@@ -56,6 +56,15 @@
   text-align: left;
 }
 
+.evid-property {
+  font-weight:bold;
+}
+
+.evid-property-required {
+  font-weight:bold;
+  border-bottom:1px dotted #444;
+}
+
 .evid-loader {
   background-color: rgb(187,222,251);
   height: 5px;

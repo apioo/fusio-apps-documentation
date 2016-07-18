@@ -176,8 +176,24 @@ angular.module('evid.schema', [])
             }
           }
 
+          var required = false;
+          if (angular.isArray(schema.required)) {
+            for (var j = 0; j < schema.required.length; j++) {
+              if (schema.required[j] == propertyName) {
+                required = true;
+                break;
+              }
+            }
+          }
+
           html += '<tr>';
-          html += '<td><b>' + propertyName + '</b></td>';
+
+          if (required) {
+            html += '<td><span class="evid-property-required" title="required">' + propertyName + '</span></td>';
+          } else {
+            html += '<td><span class="evid-property">' + propertyName + '</span></td>';  
+          }
+
           html += '<td>' + type + '</td>';
           html += '<td>' + (property.description ? property.description : '') + '</td>';
           html += '<td>' + this.buildConstraints(property) + '</td>';
