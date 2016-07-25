@@ -14,12 +14,12 @@
                 <input type="text" ng-model="request.accessToken">
             </md-input-container>
         </div>
-        <md-input-container ng-if="request.method == 'POST' || request.method == 'PUT'">
+        <md-input-container layout ng-if="request.method == 'POST' || request.method == 'PUT'">
             <label>Body</label>
             <textarea ng-model="request.body" class="evid-console-body"></textarea>
         </md-input-container>
         <md-subheader class="md-hue-1" ng-if="response.statusCode">{{ response.statusCode }} {{ response.statusText }}</md-subheader>
-        <div layout="row" layout-sm="column" layout-align="space-around" ng-if="loading">
+        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
         <div ng-if="!loading">
