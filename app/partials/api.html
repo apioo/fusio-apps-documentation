@@ -1,26 +1,45 @@
 
-<md-toolbar class="md-toolbar-tools md-accent">
-    <h2>{{ api.path }}</h2>
-    <span ng-if="api.version" class="evid-api-version">v{{ api.version }}</span>
-    <span flex></span>
-    <md-button aria-label="Send request" class="md-icon-button evid-api-export" ng-click="showConsole()">
-        <md-icon md-menu-origin md-font-library="material-icons">send</md-icon>
-    </md-button>
+<md-content>
+    <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+            <h2><span>{{ api.path }}</span></h2>
+            <span ng-if="api.version" class="evid-api-version">v{{ api.version }}</span>
+            <span flex></span>
+            <md-button aria-label="Send request" class="md-icon-button evid-api-export" ng-click="showConsole()">
+                <md-icon md-menu-origin md-font-library="material-icons">send</md-icon>
+            </md-button>
+            <md-menu ng-if="api.links.length > 0">
+                <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-menu-origin md-font-library="material-icons">archive</md-icon>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-repeat="link in api.links">
+                        <md-button href="{{ link.href }}" target="_blank">{{ link.rel|ucfirst }}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+    </md-toolbar>
+    
+    <md-tabs md-dynamic-height md-selected="selectedMethod">
+        <md-tab ng-repeat="(methodName, method) in methods" label="{{ methodName }}">
+            <md-content ng-bind-html="method" flex></md-content>
+            <div ng-if="examples[methodName]" class="evid-api-examples">
+                <md-toolbar class="md-accent">
+                    <div class="md-toolbar-tools">
+                        <h2><span>Examples</span></h2>
+                    </div>
+                </md-toolbar>
+                <md-tabs>
+                    <md-tab ng-repeat="(lang, row) in examples[methodName]" label="{{ lang }}">
+                        <div ng-repeat="(type, example) in row track by $index">
+                            <md-subheader class="md-primary md-subheader">{{ type|ucfirst }}</md-subheader>
+                            <div hljs language="{{ lang }}" source="example" class="evid-api-example-source"></div>
+                        </div>
+                    </md-tab>
+                </md-tabs>
+            </div>
+        </md-tab>
+    </md-tabs>
+</md-content>
 
-    <md-menu ng-if="api.links.length > 0">
-        <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
-            <md-icon md-menu-origin md-font-library="material-icons">archive</md-icon>
-        </md-button>
-        <md-menu-content width="3">
-            <md-menu-item ng-repeat="link in api.links">
-                <md-button href="{{ link.href }}" target="_blank">{{ link.rel|ucfirst }}</md-button>
-            </md-menu-item>
-        </md-menu-content>
-    </md-menu>
-</md-toolbar>
-
-<md-tabs md-dynamic-height md-selected="selectedMethod">
-    <md-tab ng-repeat="(methodName, method) in methods" label="{{ methodName }}">
-        <md-content ng-bind-html="method" flex></md-content>
-    </md-tab>
-</md-tabs>

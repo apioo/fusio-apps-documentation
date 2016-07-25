@@ -9,6 +9,7 @@
 
     // Angular
     "angular": false,
+    "jsyaml": false,
     
     // Angular mocks
     "module": false,

@@ -74,6 +74,16 @@
   font-family: 'Inconsolata', monospace;
 }
 
+.evid-api-examples {
+    margin-bottom: 128px;
+}
+
+.evid-api-example-source {
+  padding: 8px;
+  font-family: 'Inconsolata', monospace;
+  background-color: #f8f8f8;
+}
+
 .hljs span {
   font-family: 'Inconsolata', monospace;
 }

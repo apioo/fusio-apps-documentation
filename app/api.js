@@ -2,7 +2,7 @@
 
 angular.module('evid.api', [])
 
-.controller('ApiCtrl', ['$scope', '$http', '$compile', '$sce', '$mdSidenav', '$mdDialog', '$routeParams', 'definition', 'schema', function($scope, $http, $compile, $sce, $mdSidenav, $mdDialog, $routeParams, definition, schema) {
+.controller('ApiCtrl', ['$scope', '$http', '$compile', '$sce', '$mdSidenav', '$mdDialog', '$routeParams', 'definition', 'schema', 'evid', function($scope, $http, $compile, $sce, $mdSidenav, $mdDialog, $routeParams, definition, schema, evid) {
 
   $scope.api = {};
   $scope.methods = {};
@@ -53,6 +53,14 @@ angular.module('evid.api', [])
 
             // close nav
             $mdSidenav('left').close();
+
+            // load examples
+            if (evid.examples) {
+              var exampleUrl = 'examples/' + path.replace('/', '_').replace(':', '') + '.yaml';
+              $http.get(exampleUrl).then(function(resp) {
+                $scope.examples = jsyaml.load(resp.data);
+              });
+            }
           }
         });
       }

@@ -17,6 +17,7 @@ evid.provider('evid', function() {
   var url = null;
   var exclude = null;
   var menu = null;
+  var examples = false;
 
   this.setUrl = function(_url) {
     url = _url;
@@ -28,6 +29,10 @@ evid.provider('evid', function() {
 
   this.setMenu = function(_menu) {
     menu = _menu;
+  };
+
+  this.setExamples = function(_examples) {
+    examples = _examples;
   };
 
   this.guessEndpointUrl = function(urlRewrite) {
@@ -59,7 +64,8 @@ evid.provider('evid', function() {
     return {
       url: url,
       exclude: exclude,
-      menu: menu
+      menu: menu,
+      examples: examples
     };
   };
 });
