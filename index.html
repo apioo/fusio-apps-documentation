@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
   <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="bower_components/highlightjs/styles/github.css">
-  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="css/app.css">
   <script src="bower_components/highlightjs/highlight.pack.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
@@ -22,28 +22,36 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-highlightjs/angular-highlightjs.js"></script>
-  <script src="components/definition.js"></script>
-  <script src="components/registry.js"></script>
-  <script src="components/schema.js"></script>
-  <script src="api.js"></script>
-  <script src="page.js"></script>
-  <script src="app.js"></script>
+  <script src="app/app.js"></script>
+  <script src="app/components/definition.js"></script>
+  <script src="app/components/registry.js"></script>
+  <script src="app/components/schema.js"></script>
+  <script src="app/api.js"></script>
+  <script src="app/page.js"></script>
   <script type="text/javascript">
-  /**
-   * Path to the PSX documentation endpoint
-   */
-  evid.value('url', '/projects/fusio/public/index.php/doc');
+  evid.config(function(evidProvider) {
+      /**
+       * Url to the PSX documentation endpoint
+       */
+      var url = evidProvider.guessEndpointUrl(false) + 'doc';
 
-  /**
-   * Paths which should be excluded from the documentation
-   */
-  evid.value('exclude', []);
+      evidProvider.setUrl(url);
 
-  /**
-   * Optional menu entries. Each menu entry must have the following format
-   * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
-   */
-  evid.value('menu', []);
+      /**
+       * Paths which should be excluded from the documentation
+       */
+      var exclude = [];
+
+      evidProvider.setExclude(exclude);
+
+      /**
+       * Optional menu entries. Each menu entry must have the following format
+       * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
+       */
+      var menu = [{ title: 'Getting started', icon: 'home', href: 'intro.htm' }];
+
+      evidProvider.setMenu(menu);
+  });
   </script>
 </head>
 <body layout="column" ng-controller="AppCtrl">

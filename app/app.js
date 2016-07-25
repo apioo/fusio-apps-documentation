@@ -13,14 +13,65 @@ var evid = angular.module('evid', [
   'evid.page'
 ]);
 
+evid.provider('evid', function() {
+  var url = null;
+  var exclude = null;
+  var menu = null;
+
+  this.setUrl = function(_url) {
+    url = _url;
+  };
+
+  this.setExclude = function(_exclude) {
+    exclude = _exclude;
+  };
+
+  this.setMenu = function(_menu) {
+    menu = _menu;
+  };
+
+  this.guessEndpointUrl = function(urlRewrite) {
+    var url = window.location.href;
+    var removePart = function(url, sign) {
+      var count = (url.match(/\//g) || []).length;
+      var pos = url.lastIndexOf(sign);
+      if (count > 2 && pos !== -1) {
+        return url.substring(0, pos);
+      }
+      return url;
+    };
+    var parts = ['#', '?', '/', '/'];
+    for (var i = 0; i < parts.length; i++) {
+      url = removePart(url, parts[i]);
+    }
+    return url + (urlRewrite ? '/' : '/index.php/');
+  };
+
+  this.$get = function() {
+    // BC workaround if the base url was not configured but the fusio_url is
+    // available we use it else we guess the url
+    if (url === null && typeof fusio_url !== 'undefined') {
+      url = fusio_url;
+    } else if (url === null) {
+      url = this.guessFusioEndpointUrl(false);
+    }
+
+    return {
+      url: url,
+      exclude: exclude,
+      menu: menu
+    };
+  };
+});
+
 evid.config(['$routeProvider', function($routeProvider) {
   $routeProvider
     .when('/api/:api*?', {
-      templateUrl: 'partials/api.html',
+      templateUrl: 'app/partials/api.html',
       controller: 'ApiCtrl'
     })
     .when('/page/:page?', {
-      templateUrl: 'partials/page.html',
+      templateUrl: 'app/partials/page.html',
       controller: 'PageCtrl'
     })
     .otherwise({
@@ -54,9 +105,9 @@ evid.filter('ucfirst', function() {
   };
 });
 
-evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'url', 'menu', 'definition', function($scope, $http, $mdSidenav, url, menu, definition) {
+evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'evid', 'definition', function($scope, $http, $mdSidenav, evid, definition) {
 
-  $scope.menus = menu;
+  $scope.menus = evid.menu;
   $scope.routings = [];
 
   $scope.toggleSidebar = function() {

@@ -13,21 +13,29 @@
   <link rel="stylesheet" href="evid.min.css">
   <script src="evid.min.js"></script>
   <script type="text/javascript">
-  /**
-   * Path to the PSX documentation endpoint
-   */
-  evid.value('url', '/projects/fusio/public/index.php/doc');
+  evid.config(function(evidProvider) {
+      /**
+       * Url to the PSX documentation endpoint
+       */
+      var url = evidProvider.guessEndpointUrl(false) + 'doc';
 
-  /**
-   * Paths which should be excluded from the documentation
-   */
-  evid.value('exclude', []);
+      evidProvider.setUrl(url);
 
-  /**
-   * Optional menu entries. Each menu entry must have the following format
-   * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
-   */
-  evid.value('menu', []);
+      /**
+       * Paths which should be excluded from the documentation
+       */
+      var exclude = [];
+
+      evidProvider.setExclude(exclude);
+
+      /**
+       * Optional menu entries. Each menu entry must have the following format
+       * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
+       */
+      var menu = [];
+
+      evidProvider.setMenu(menu);
+  });
   </script>
 </head>
 <body layout="column" ng-controller="AppCtrl">

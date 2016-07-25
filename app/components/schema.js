@@ -9,10 +9,10 @@ angular.module('evid.schema', [])
    * json schema to an html representation
    */
   this.create = function(definition) {
-    return new schemaGenerator(definition);
-  }
+    return new SchemaGenerator(definition);
+  };
 
-  function schemaGenerator(definition) {
+  function SchemaGenerator(definition) {
     this.definition = definition;
     this.schema = definition.schema;
 
@@ -69,7 +69,9 @@ angular.module('evid.schema', [])
       var codes = [];
       if (method && method.responses) {
         for (var statusCode in method.responses) {
-          codes.push(statusCode);
+          if (method.responses.hasOwnProperty(statusCode)) {
+            codes.push(statusCode);
+          }
         }
       }
       return codes;
@@ -146,58 +148,61 @@ angular.module('evid.schema', [])
         html += '</thead>';
         html += '<tbody>';
         for (var propertyName in schema.properties) {
-          var property = schema.properties[propertyName];
+          if (schema.properties.hasOwnProperty(propertyName)) {
+            var property = schema.properties[propertyName];
+            var object;
 
-          if (property.$ref) {
-            property = this.resolveRef(property);
-          }
-
-          var type = property.type ? property.type : 'string';
-
-          if (type == 'object') {
-            var object = this.resolveRef(property);
-            if (object.title) {
-              type = object.title;
+            if (property.$ref) {
+              property = this.resolveRef(property);
             }
-            references.push(object);
-          } else if (type == 'array') {
-            if (property.items) {
-              var object = this.resolveRef(property.items);
-              if (object.type == 'object') {
-                if (object.title) {
-                  type = 'array&lt;' + object.title + '&gt;';
-                } else {
-                  type = 'array&lt;object&gt;';
+
+            var type = property.type ? property.type : 'string';
+
+            if (type === 'object') {
+              object = this.resolveRef(property);
+              if (object.title) {
+                type = object.title;
+              }
+              references.push(object);
+            } else if (type === 'array') {
+              if (property.items) {
+                object = this.resolveRef(property.items);
+                if (object.type === 'object') {
+                  if (object.title) {
+                    type = 'array&lt;' + object.title + '&gt;';
+                  } else {
+                    type = 'array&lt;object&gt;';
+                  }
+                  references.push(object);
+                } else if (object.type) {
+                  type = 'array&lt;' + object.type + '&gt;';
                 }
-                references.push(object);
-              } else if (object.type) {
-                type = 'array&lt;' + object.type + '&gt;';
               }
             }
-          }
 
-          var required = false;
-          if (angular.isArray(schema.required)) {
-            for (var j = 0; j < schema.required.length; j++) {
-              if (schema.required[j] == propertyName) {
-                required = true;
-                break;
+            var required = false;
+            if (angular.isArray(schema.required)) {
+              for (var j = 0; j < schema.required.length; j++) {
+                if (schema.required[j] === propertyName) {
+                  required = true;
+                  break;
+                }
               }
             }
+
+            html += '<tr>';
+
+            if (required) {
+              html += '<td><span class="evid-property-required" title="required">' + propertyName + '</span></td>';
+            } else {
+              html += '<td><span class="evid-property">' + propertyName + '</span></td>';
+            }
+
+            html += '<td>' + type + '</td>';
+            html += '<td>' + (property.description ? property.description : '') + '</td>';
+            html += '<td>' + this.buildConstraints(property) + '</td>';
+            html += '</tr>';
           }
-
-          html += '<tr>';
-
-          if (required) {
-            html += '<td><span class="evid-property-required" title="required">' + propertyName + '</span></td>';
-          } else {
-            html += '<td><span class="evid-property">' + propertyName + '</span></td>';
-          }
-
-          html += '<td>' + type + '</td>';
-          html += '<td>' + (property.description ? property.description : '') + '</td>';
-          html += '<td>' + this.buildConstraints(property) + '</td>';
-          html += '</tr>';
         }
         html += '</tbody>';
         html += '</table>';
@@ -248,38 +253,41 @@ angular.module('evid.schema', [])
 
       if (schema.properties) {
         for (var propertyName in schema.properties) {
-          var property = schema.properties[propertyName];
+          if (schema.properties.hasOwnProperty(propertyName)) {
+            var property = schema.properties[propertyName];
+            var object;
 
-          if (property.$ref) {
-            property = this.resolveRef(property);
-          }
-
-          var type = property.type ? property.type : 'string';
-
-          if (type == 'object') {
-            var object = this.resolveRef(property);
-            data[propertyName] = this.buildJsonObject(object);
-          } else if (type == 'array') {
-            var result = [];
-            if (property.items) {
-              var object = this.resolveRef(property.items);
-              if (object.type == 'object') {
-                result.push(this.buildJsonObject(object));
-              } else {
-                result.push('');
-              }
+            if (property.$ref) {
+              property = this.resolveRef(property);
             }
-            data[propertyName] = result;
-          } else if (type == 'integer') {
-            data[propertyName] = 0;
-          } else if (type == 'number') {
-            data[propertyName] = 0.0;
-          } else if (type == 'null') {
-            data[propertyName] = null;
-          } else if (type == 'boolean') {
-            data[propertyName] = false;
-          } else {
-            data[propertyName] = '';
+
+            var type = property.type ? property.type : 'string';
+
+            if (type === 'object') {
+              object = this.resolveRef(property);
+              data[propertyName] = this.buildJsonObject(object);
+            } else if (type === 'array') {
+              var result = [];
+              if (property.items) {
+                object = this.resolveRef(property.items);
+                if (object.type === 'object') {
+                  result.push(this.buildJsonObject(object));
+                } else {
+                  result.push('');
+                }
+              }
+              data[propertyName] = result;
+            } else if (type === 'integer') {
+              data[propertyName] = 0;
+            } else if (type === 'number') {
+              data[propertyName] = 0.0;
+            } else if (type === 'null') {
+              data[propertyName] = null;
+            } else if (type === 'boolean') {
+              data[propertyName] = false;
+            } else {
+              data[propertyName] = '';
+            }
           }
         }
       }

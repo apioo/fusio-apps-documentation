@@ -4,10 +4,10 @@ angular.module('evid.api', [])
 
 .controller('ApiCtrl', ['$scope', '$http', '$compile', '$sce', '$mdSidenav', '$mdDialog', '$routeParams', 'definition', 'schema', function($scope, $http, $compile, $sce, $mdSidenav, $mdDialog, $routeParams, definition, schema) {
 
-  $scope.api;
-  $scope.methods;
-  $scope.endpoint;
-  $scope.selectedMethod;
+  $scope.api = {};
+  $scope.methods = {};
+  $scope.endpoint = '';
+  $scope.selectedMethod = '';
 
   $scope.loadApi = function() {
     definition.initialize().then(function(def) {
@@ -33,12 +33,14 @@ angular.module('evid.api', [])
           if ($scope.api.methods) {
             var methods = {};
             for (var methodName in $scope.api.methods) {
-              var schema = $scope.getSchema(methodName, $scope.api.methods[methodName]);
-              if (!schema) {
-                schema = '<div class="md-padding md-default-theme">This API method provides no schema informations.</div>';
-              }
+              if ($scope.api.methods.hasOwnProperty(methodName)) {
+                var schema = $scope.getSchema(methodName, $scope.api.methods[methodName]);
+                if (!schema) {
+                  schema = '<div class="md-padding md-default-theme">This API method provides no schema informations.</div>';
+                }
 
-              methods[methodName] = schema;
+                methods[methodName] = schema;
+              }
             }
 
             $scope.methods = methods;
@@ -70,7 +72,7 @@ angular.module('evid.api', [])
   $scope.showConsole = function(ev) {
     $mdDialog.show({
       controller: ConsoleCtrl,
-      templateUrl: 'partials/console.html',
+      templateUrl: 'app/partials/console.html',
       clickOutsideToClose: true,
       targetEvent: ev,
       locals: {
@@ -84,11 +86,13 @@ angular.module('evid.api', [])
   $scope.getSelectedMethod = function() {
     var i = 0;
     for (var methodName in $scope.methods) {
-      if (i == $scope.selectedMethod) {
-        return methodName;
-      }
+      if ($scope.methods.hasOwnProperty(methodName)) {
+        if (i == $scope.selectedMethod) {
+          return methodName;
+        }
 
-      i++;
+        i++;
+      }
     }
 
     return null;

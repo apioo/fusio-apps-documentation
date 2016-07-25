@@ -2,7 +2,7 @@
 
 angular.module('evid.definition', [])
 
-.service('definition', ['$http', '$q', 'url', 'registry', 'exclude', function definition($http, $q, url, registry, exclude) {;
+.service('definition', ['$http', '$q', 'evid', 'registry', function definition($http, $q, evid, registry) {
 
   /**
    * Requests the API definition of the endpoint which was provided through the
@@ -18,8 +18,8 @@ angular.module('evid.definition', [])
     }
 
     return $q(function(resolve, reject) {
-      $http.get(url).then(function(response) {
-        registry.set('definition', new def(response.data, exclude));
+      $http.get(evid.url).then(function(response) {
+        registry.set('definition', new Def(response.data, evid.exclude));
         resolve(registry.get('definition'));
       }, function() {
         reject();
@@ -27,7 +27,7 @@ angular.module('evid.definition', [])
     });
   };
 
-  function def(api, exclude) {
+  function Def(api, exclude) {
 
     this.api = api;
     this.exclude = exclude;
@@ -57,7 +57,7 @@ angular.module('evid.definition', [])
       }
 
       return routings;
-    }
+    };
 
     this.getFirstRoute = function() {
       var routings = this.getRoutings();
