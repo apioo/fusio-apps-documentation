@@ -14,27 +14,27 @@
   <script src="evid.min.js"></script>
   <script type="text/javascript">
   evid.config(function(evidProvider) {
-      /**
-       * Url to the PSX documentation endpoint
-       */
-      var url = evidProvider.guessEndpointUrl(false) + 'doc';
+    /**
+     * Url to the PSX documentation endpoint
+     */
+    var url = evidProvider.guessEndpointUrl(false) + 'doc';
 
-      evidProvider.setUrl(url);
+    evidProvider.setUrl(url);
 
-      /**
-       * Paths which should be excluded from the documentation
-       */
-      var exclude = [];
+    /**
+     * Paths which should be excluded from the documentation
+     */
+    var exclude = [];
 
-      evidProvider.setExclude(exclude);
+    evidProvider.setExclude(exclude);
 
-      /**
-       * Optional menu entries. Each menu entry must have the following format
-       * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
-       */
-      var menu = [];
+    /**
+     * Optional menu entries. Each menu entry must have the following format
+     * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
+     */
+    var menu = [];
 
-      evidProvider.setMenu(menu);
+    evidProvider.setMenu(menu);
   });
   </script>
 </head>
