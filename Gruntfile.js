@@ -1,24 +1,6 @@
 module.exports = function(grunt){
 
   grunt.initConfig({
-    uglify: {
-      options: {
-        banner: '/*\n evid\n Copyright (C) 2015-2016 Christoph Kappestein\n License: MIT\n*/\n',
-        mangle: false
-      },
-      dist: {
-        files: {
-          './build/evid-app.min.js': [
-            './app/components/definition.js',
-            './app/components/registry.js',
-            './app/components/schema.js',
-            './app/api.js',
-            './app/page.js',
-            './app/app.js'
-          ]
-        }
-      }
-    },
     concat: {
       dist_js: {
         options: {
@@ -41,7 +23,7 @@ module.exports = function(grunt){
           './dist/evid-app.min.js',
           './dist/evid-templates.min.js'
         ],
-        dest: './build/evid.min.js'
+        dest: './dist/evid.min.js'
       },
       dist_css: {
         options: {
@@ -59,6 +41,24 @@ module.exports = function(grunt){
         dest: './dist/evid.min.css'
       }
     },
+    uglify: {
+      options: {
+        banner: '/*\n evid\n Copyright (C) 2015-2016 Christoph Kappestein\n License: MIT\n*/\n',
+        mangle: false
+      },
+      dist: {
+        files: {
+          './dist/evid-app.min.js': [
+            './app/app.js',
+            './app/api.js',
+            './app/page.js',
+            './app/components/definition.js',
+            './app/components/registry.js',
+            './app/components/schema.js'
+          ]
+        }
+      }
+    },
     cssmin: {
       compress_css: {
         src: './dist/evid.min.css',
@@ -67,8 +67,7 @@ module.exports = function(grunt){
     },
     ngtemplates: {
       evid: {
-        cwd: 'app',
-        src: 'partials/*.html',
+        src: 'app/partials/*.html',
         dest: './dist/evid-templates.min.js',
         options: {
           htmlmin: {
