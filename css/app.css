@@ -56,6 +56,33 @@
   text-align: left;
 }
 
+.evid-object-json {
+  padding:16px;
+  line-height:24px;
+  background-color:#444;
+  color:#eee;
+}
+
+.evid-property-type {
+  font-weight:bold;
+}
+
+.evid-object-description {
+  padding:16px;
+}
+
+.evid-object-json a {
+  color:rgb(33,150,243);
+}
+
+.evid-object-json-key {
+  color:#0dbb2f;
+}
+
+.evid-object-json-pun {
+  color:#0dbb2f;
+}
+
 .evid-property {
   font-weight:bold;
 }
