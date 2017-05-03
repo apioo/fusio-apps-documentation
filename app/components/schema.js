@@ -182,15 +182,15 @@ angular.module('evid.schema', [])
         if (schema.additionalProperties) {
           if (schema.additionalProperties === true) {
             html += '<tr>';
-            html += '<td><span class="psx-property-name psx-property-optional">*</span></td>';
-            html += '<td><span class="psx-property-description">Additional properties are allowed</span></td>';
+            html += '<td><span class="evid-property-name evid-property-optional">*</span></td>';
+            html += '<td><span class="evid-property-description">Additional properties are allowed</span></td>';
             html += '</tr>';
 
             json += '  ';
-            json += '<span class="psx-object-json-key">"*"</span>';
-            json += '<span class="psx-object-json-pun">: </span>';
-            json += '<span class="psx-property-type">Mixed</span>';
-            json += '<span class="psx-object-json-pun">,</span>';
+            json += '<span class="evid-object-json-key">"*"</span>';
+            json += '<span class="evid-object-json-pun">: </span>';
+            json += '<span class="evid-property-type">Mixed</span>';
+            json += '<span class="evid-object-json-pun">,</span>';
             json += "\n";
           } else if (angular.isObject(schema.additionalProperties)) {
             property = schema.additionalProperties;
