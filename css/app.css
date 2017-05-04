@@ -1,21 +1,14 @@
 
-.evid-menu {
+.evid-menu > md-list {
+  padding:0;
 }
 
-.evid-menu md-list-item {
-  min-height:48px;
-}
-
-.evid-menu-item {
+.evid-menu h3 {
   font-family: 'Inconsolata', monospace;
-  font-size: 0.9em;
-  text-transform: none;
-  text-align: left;
-  width: 100%;
 }
 
-.evid-menu-item md-icon {
-  margin-right: 4px;
+.md-list-item > md-icon:first-child:not(.md-avatar-icon), md-list-item .md-list-item-inner > md-icon:first-child:not(.md-avatar-icon) {
+  margin-right:16px;
 }
 
 .evid-api-version {
@@ -23,8 +16,12 @@
   margin-left: 8px;
 }
 
-.evid-api-export md-icon {
-  color: rgba(0,0,0,0.87)!important;
+.evid-api {
+  background-color:#fff;
+}
+
+.evid-api > md-toolbar > h2 {
+  font-family: 'Inconsolata', monospace;
 }
 
 .evid-schema-table {
@@ -58,8 +55,9 @@
 
 .evid-object-json {
   padding:16px;
+  margin:0;
   line-height:24px;
-  background-color:#444;
+  background-color:rgb(40,40,40);
   color:#eee;
 }
 
@@ -71,16 +69,24 @@
   padding:16px;
 }
 
+.evid-api-description {
+  padding-left:16px;
+}
+
+.evid-method-description {
+  padding-left:16px;
+}
+
 .evid-object-json a {
   color:rgb(33,150,243);
 }
 
 .evid-object-json-key {
-  color:#0dbb2f;
+  color:#0dd52f;
 }
 
 .evid-object-json-pun {
-  color:#0dbb2f;
+  color:#0dd52f;
 }
 
 .evid-property {
@@ -102,7 +108,7 @@
 }
 
 .evid-api-examples {
-    margin-bottom: 128px;
+  margin-bottom: 128px;
 }
 
 .evid-api-example-source {

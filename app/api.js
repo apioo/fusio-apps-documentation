@@ -36,7 +36,7 @@ angular.module('evid.api', [])
               if ($scope.api.methods.hasOwnProperty(methodName)) {
                 var schema = $scope.getSchema(methodName, $scope.api.methods[methodName]);
                 if (!schema) {
-                  schema = '<div class="md-padding md-default-theme">This API method provides no schema informations.</div>';
+                  schema = '<div class="md-padding md-default-theme">This API method provides no schema information.</div>';
                 }
 
                 methods[methodName] = schema;

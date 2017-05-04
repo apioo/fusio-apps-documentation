@@ -2,7 +2,7 @@
 
 angular.module('evid.schema', [])
 
-.service('schema', function() {
+.service('schema', function(marked) {
 
   /**
    * Creates a schema generator from an schema definition which transforms an
@@ -18,6 +18,10 @@ angular.module('evid.schema', [])
 
     this.getHtml = function(methodName, method) {
       var html = '<div>';
+
+      if (method.description) {
+        html += '<div class="evid-method-description">' + marked(method.description) + '</div>';
+      }
 
       // request
       var request = this.getRequest(method);
@@ -122,10 +126,10 @@ angular.module('evid.schema', [])
       var title = this.getTitleForObject(schema);
 
       resp += '<div class="evid-object">';
-      resp += '<md-subheader class="md-hue-1"><strong>' + title + '</strong></md-subheader>';
+      resp += '<md-subheader class="md-hue-2"><strong>' + title + '</strong></md-subheader>';
 
       if (schema.description) {
-        resp += '<div class="evid-object-description">' + schema.description + '</div>';
+        resp += '<div class="evid-object-description">' + this.escapeHtml(schema.description) + '</div>';
       }
 
       var html = '';
@@ -374,7 +378,7 @@ angular.module('evid.schema', [])
     this.getTitleForObject = function(schema) {
       var title = 'Object';
       if (schema.title) {
-        title = schema.title;
+        title = this.escapeHtml(schema.title);
       }
 
       return title;
@@ -451,7 +455,7 @@ angular.module('evid.schema', [])
       html += '<td>';
       html += '<span class="evid-property-type">' + type + '</span>';
       if (property.description) {
-        html += '<div class="evid-property-description">' + property.description + '</div>';
+        html += '<div class="evid-property-description">' + this.escapeHtml(property.description) + '</div>';
       }
 
       if (constraints) {
@@ -482,6 +486,15 @@ angular.module('evid.schema', [])
       }
       type += '</ul>';
       return type;
+    };
+
+    this.escapeHtml = function(html) {
+      return html
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     };
   }
 });

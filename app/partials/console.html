@@ -1,32 +1,33 @@
 
 <md-dialog aria-label="Console" style="width:800px;">
-    <md-toolbar class="md-toolbar-tools">
-        <h2>{{ request.method }}</h2>
-    </md-toolbar>
-    <md-dialog-content style="max-width:800px;max-height:600px;" class="md-padding">
-        <div layout layout-sm="column">
-            <md-input-container flex>
-                <label>URL</label>
-                <input type="text" ng-model="request.url">
-            </md-input-container>
-            <md-input-container flex="30">
-                <label>Access-Token (OAuth2)</label>
-                <input type="text" ng-model="request.accessToken">
-            </md-input-container>
-        </div>
-        <md-input-container layout ng-if="request.method == 'POST' || request.method == 'PUT'">
-            <label>Body</label>
-            <textarea ng-model="request.body" class="evid-console-body"></textarea>
-        </md-input-container>
-        <md-subheader class="md-hue-1" ng-if="response.statusCode">{{ response.statusCode }} {{ response.statusText }}</md-subheader>
-        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
-            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-        </div>
-        <div ng-if="!loading">
-            <div hljs language="json" source="response.body" ng-if="response.body"></div>
-        </div>
-    </md-dialog-content>
-    <div class="md-actions" layout="row">
-        <md-button class="md-raised md-primary" ng-click="sendRequest()">Send</md-button>
+  <md-toolbar class="md-toolbar-tools">
+    <h2>{{ request.method }}</h2>
+  </md-toolbar>
+  <md-dialog-content style="max-width:800px;max-height:600px;" class="md-padding">
+    <div layout layout-sm="column">
+      <md-input-container flex>
+        <label>URL</label>
+        <input type="text" ng-model="request.url">
+      </md-input-container>
+      <md-input-container flex="30">
+        <label>Access-Token (OAuth2)</label>
+        <input type="text" ng-model="request.accessToken">
+      </md-input-container>
     </div>
+    <md-input-container layout ng-if="request.method == 'POST' || request.method == 'PUT'">
+      <label>Body</label>
+      <textarea ng-model="request.body" class="evid-console-body"></textarea>
+    </md-input-container>
+    <md-subheader class="md-hue-1" ng-if="response.statusCode">{{ response.statusCode }} {{ response.statusText }}
+    </md-subheader>
+    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div ng-if="!loading">
+      <div hljs language="json" source="response.body" ng-if="response.body"></div>
+    </div>
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+    <md-button class="md-raised md-primary" ng-click="sendRequest()">Send</md-button>
+  </div>
 </md-dialog>

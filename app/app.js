@@ -6,6 +6,7 @@ var evid = angular.module('evid', [
   'ngMaterial',
   'ngAnimate',
   'hljs',
+  'hc.marked',
   'evid.definition',
   'evid.registry',
   'evid.schema',
@@ -90,6 +91,20 @@ evid.config(function($mdThemingProvider) {
     .primaryPalette('blue')
     .accentPalette('grey');
 });
+
+evid.config(['markedProvider', function(markedProvider) {
+  markedProvider.setOptions({
+    gfm: true,
+    tables: true,
+    highlight: function(code, lang) {
+      if (lang) {
+        return hljs.highlight(lang, code, true).value;
+      } else {
+        return hljs.highlightAuto(code).value;
+      }
+    }
+  });
+}]);
 
 evid.filter('slugify', function() {
   return function(input) {
