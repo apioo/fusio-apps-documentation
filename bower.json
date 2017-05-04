@@ -6,16 +6,18 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "^1.5.0",
-    "angular-route": "^1.5.0",
-    "angular-animate": "^1.5.0",
-    "angular-aria": "^1.5.0",
-    "angular-sanitize": "^1.5.0",
-    "angular-loader": "^1.5.0",
-    "angular-mocks": "^1.5.0",
-    "angular-material": "^1.0.0",
-    "angular-highlightjs": "^0.6.0",
-    "highlightjs": "^8.8.0",
-    "js-yaml": "^3.6.1"
+    "angular": "1.6.*",
+    "angular-route": "1.6.*",
+    "angular-animate": "1.6.*",
+    "angular-aria": "1.6.*",
+    "angular-sanitize": "1.6.*",
+    "angular-loader": "1.6.*",
+    "angular-mocks": "1.6.*",
+    "angular-material": "1.1.*",
+    "angular-highlightjs": "0.6.*",
+    "angular-marked": "1.2.*",
+    "highlightjs": "8.8.*",
+    "marked": "0.3.*",
+    "js-yaml": "3.6.*"
   }
 }
