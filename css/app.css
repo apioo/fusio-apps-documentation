@@ -103,6 +103,15 @@
   height: 5px;
 }
 
+.evid-console {
+  max-width:800px;
+  max-height:600px;
+}
+
+.evid-console md-input-container {
+  margin:8px 0;
+}
+
 .evid-console-body {
   font-family: 'Inconsolata', monospace;
 }

@@ -3,22 +3,22 @@
   <md-toolbar class="md-toolbar-tools">
     <h2>{{ request.method }}</h2>
   </md-toolbar>
-  <md-dialog-content style="max-width:800px;max-height:600px;" class="md-padding">
-    <div layout layout-sm="column">
-      <md-input-container flex>
+  <md-dialog-content class="evid-console md-padding">
+    <div layout="row">
+      <md-input-container class="md-block" flex="66">
         <label>URL</label>
         <input type="text" ng-model="request.url">
       </md-input-container>
-      <md-input-container flex="30">
+      <md-input-container class="md-block" flex="33">
         <label>Access-Token (OAuth2)</label>
         <input type="text" ng-model="request.accessToken">
       </md-input-container>
     </div>
-    <md-input-container layout ng-if="request.method == 'POST' || request.method == 'PUT'">
+    <md-input-container ng-if="request.method == 'POST' || request.method == 'PUT'" class="md-block">
       <label>Body</label>
       <textarea ng-model="request.body" class="evid-console-body"></textarea>
     </md-input-container>
-    <md-subheader class="md-hue-1" ng-if="response.statusCode">{{ response.statusCode }} {{ response.statusText }}
+    <md-subheader class="md-primary" ng-if="response.statusCode">{{ response.statusCode }} {{ response.statusText }}
     </md-subheader>
     <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
