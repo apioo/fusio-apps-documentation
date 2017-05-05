@@ -13,10 +13,12 @@ module.exports = function(grunt){
         src: [
           './bower_components/highlightjs/highlight.pack.min.js',
           './bower_components/js-yaml/dist/js-yaml.min.js',
+          './bower_components/marked/marked.min.js',
           './bower_components/angular/angular.min.js',
           './bower_components/angular-animate/angular-animate.min.js',
           './bower_components/angular-aria/angular-aria.min.js',
           './bower_components/angular-loader/angular-loader.min.js',
+          './bower_components/angular-marked/dist/angular-marked.min.js',
           './bower_components/angular-material/angular-material.min.js',
           './bower_components/angular-route/angular-route.min.js',
           './bower_components/angular-sanitize/angular-sanitize.min.js',
@@ -44,7 +46,7 @@ module.exports = function(grunt){
     },
     uglify: {
       options: {
-        banner: '/*\n evid\n Copyright (C) 2015-2016 Christoph Kappestein\n License: MIT\n*/\n',
+        banner: '/*\n evid\n Copyright (C) 2015-2017 Christoph Kappestein\n License: MIT\n*/\n',
         mangle: false
       },
       dist: {
