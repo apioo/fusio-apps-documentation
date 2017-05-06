@@ -15,6 +15,7 @@ angular.module('evid.schema', [])
   function SchemaGenerator(definition) {
     this.definition = definition;
     this.schema = definition.schema;
+    this.refs = {};
 
     this.getHtml = function(methodName, method) {
       var html = '<div>';
@@ -105,8 +106,14 @@ angular.module('evid.schema', [])
     };
 
     this.resolveRef = function(schema) {
-      if (schema.$ref) {
-        schema = this.resolveRef(this.getPointer(schema.$ref));
+      if (schema.$ref && angular.isString(schema.$ref)) {
+        if (this.refs.hasOwnProperty(schema.$ref)) {
+          schema = this.refs[schema.$ref];
+        } else {
+          this.refs[schema.$ref] = {};
+          schema = this.resolveRef(this.getPointer(schema.$ref));
+          this.refs[schema.$ref] = schema;
+        }
       }
       return schema;
     };
@@ -237,7 +244,7 @@ angular.module('evid.schema', [])
       }
 
       if (property.enum && angular.isArray(property.enum)) {
-        html += '<dt>Enumeration:</dt><dd>' + property.enum.join(', ') + '</dd>';
+        html += '<dt>Enum:</dt><dd>' + property.enum.join(', ') + '</dd>';
       }
 
       // string
@@ -384,6 +391,12 @@ angular.module('evid.schema', [])
       return title;
     };
 
+    /**
+     * Returns all sub schemas of a property
+     *
+     * @param {Object} property
+     * @returns {Array}
+     */
     this.findReferences = function(property) {
       var refs = [];
       var i, j, result;
