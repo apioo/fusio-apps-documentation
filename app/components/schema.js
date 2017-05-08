@@ -108,9 +108,8 @@ angular.module('evid.schema', [])
     this.resolveRef = function(schema) {
       if (schema.$ref && angular.isString(schema.$ref)) {
         if (this.refs.hasOwnProperty(schema.$ref)) {
-          schema = this.refs[schema.$ref];
+          return this.refs[schema.$ref];
         } else {
-          this.refs[schema.$ref] = {};
           schema = this.resolveRef(this.getPointer(schema.$ref));
           this.refs[schema.$ref] = schema;
         }
@@ -351,9 +350,17 @@ angular.module('evid.schema', [])
       }
 
       if (type === 'object') {
-        return '<span class="evid-property-type evid-property-type-object">Object (' + this.getTitleForObject(property) + ')</span>';
+        if (property.title) {
+          return '<span class="evid-property-type evid-property-type-object">Object (' + this.ucfirst(this.escapeHtml(property.title)) + ')</span>';
+        } else {
+          return '<span class="evid-property-type evid-property-type-object">Object</span>';
+        }
       } else if (type === 'array') {
-        return '<span class="evid-property-type evid-property-type-array">Array (' + this.getTypeName(property.items) + ')</span>';
+        if (property.items) {
+          return '<span class="evid-property-type evid-property-type-array">Array (' + this.getTypeName(property.items) + ')</span>';
+        } else {
+          return '<span class="evid-property-type evid-property-type-array">Array</span>';
+        }
       } else if (angular.isString(type)) {
         typeName = this.ucfirst(type);
       } else if (angular.isArray(type)) {
@@ -400,7 +407,7 @@ angular.module('evid.schema', [])
     this.getTitleForObject = function(schema) {
       var title = 'Object';
       if (schema.title) {
-        title = this.escapeHtml(schema.title);
+        title = this.ucfirst(this.escapeHtml(schema.title));
       }
 
       return title;
