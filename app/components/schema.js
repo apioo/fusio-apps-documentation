@@ -341,38 +341,53 @@ angular.module('evid.schema', [])
       var typeName;
       var type = property.type;
 
-      if (property.items) {
-        typeName = '<span class="evid-property-type evid-property-type-array">Array (' + this.getTypeName(property.items) + ')</span>';
-      } else if (property.properties) {
-        typeName = '<span class="evid-property-type evid-property-type-array">Object (' + this.getTitleForObject(property) + ')</span>';
-      } else {
-        if (!type) {
-          typeName = 'Mixed';
-        } else if (angular.isArray(type)) {
-          typeName = type.join(', ');
-        } else if (angular.isString(type)) {
-          typeName = this.ucfirst(type);
-        } else {
-          typeName = 'Mixed';
-        }
-
-        var format = property.format;
-        if (format === 'date') {
-          typeName = '<a href="http://tools.ietf.org/html/rfc3339#section-5.6" title="RFC3339">Date</a>';
-        } else if (format === 'date-time') {
-          typeName = '<a href="http://tools.ietf.org/html/rfc3339#section-5.6" title="RFC3339">DateTime</a>';
-        } else if (format === 'time') {
-          typeName = '<a href="http://tools.ietf.org/html/rfc3339#section-5.6" title="RFC3339">Time</a>';
-        } else if (format === 'duration') {
-          typeName = '<a href="https://en.wikipedia.org/wiki/ISO_8601#Durations" title="ISO8601">Duration</a>';
-        } else if (format === 'uri') {
-          typeName = '<a href="http://tools.ietf.org/html/rfc3986" title="RFC3339">URI</a>';
-        } else if (format === 'binary') {
-          typeName = '<a href="http://tools.ietf.org/html/rfc4648" title="RFC4648">Base64</a>';
+      // guess type
+      if (!type) {
+        if (property.items || property.additionalItems) {
+          type = 'array';
+        } else if (property.properties || property.patternProperties || property.additionalProperties) {
+          type = 'object';
         }
       }
 
-      return typeName;
+      if (type === 'object') {
+        return '<span class="evid-property-type evid-property-type-object">Object (' + this.getTitleForObject(property) + ')</span>';
+      } else if (type === 'array') {
+        return '<span class="evid-property-type evid-property-type-array">Array (' + this.getTypeName(property.items) + ')</span>';
+      } else if (angular.isString(type)) {
+        typeName = this.ucfirst(type);
+      } else if (angular.isArray(type)) {
+        var result = [];
+        for (var i = 0; i < type.length; i++) {
+          if (angular.isString(type[i])) {
+            result.push(this.ucfirst(type[i]));
+          }
+        }
+        if (result.length > 0) {
+          typeName = result.join(', ');
+        } else {
+          typeName = 'Mixed';
+        }
+      } else {
+        typeName = 'Mixed';
+      }
+
+      var format = property.format;
+      if (format === 'date') {
+        return '<a href="http://tools.ietf.org/html/rfc3339#section-5.6" title="RFC3339">Date</a>';
+      } else if (format === 'date-time') {
+        return '<a href="http://tools.ietf.org/html/rfc3339#section-5.6" title="RFC3339">DateTime</a>';
+      } else if (format === 'time') {
+        return '<a href="http://tools.ietf.org/html/rfc3339#section-5.6" title="RFC3339">Time</a>';
+      } else if (format === 'duration') {
+        return '<a href="https://en.wikipedia.org/wiki/ISO_8601#Durations" title="ISO8601">Duration</a>';
+      } else if (format === 'uri') {
+        return '<a href="http://tools.ietf.org/html/rfc3986" title="RFC3339">URI</a>';
+      } else if (format === 'binary') {
+        return '<a href="http://tools.ietf.org/html/rfc4648" title="RFC4648">Base64</a>';
+      } else {
+        return typeName;
+      }
     };
 
     this.ucfirst = function(input) {
