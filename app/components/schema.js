@@ -24,6 +24,13 @@ angular.module('evid.schema', [])
         html += '<div class="evid-method-description">' + marked(method.description) + '</div>';
       }
 
+      // parameters
+      var parameters = this.getQueryParameters(method);
+      if (parameters) {
+        html += '<md-subheader class="md-primary">' + methodName + ' Parameters</md-subheader>';
+        html += '<div class="evid-schema-table">' + parameters + '</div>';
+      }
+
       // request
       var request = this.getRequest(method);
       if (request) {
@@ -48,6 +55,16 @@ angular.module('evid.schema', [])
 
     this.getJsonSampleRequest = function(method) {
       return this.getRequest(method, 'json');
+    };
+
+    this.getQueryParameters = function(method, format) {
+      if (method && method.queryParameters) {
+        var data = this.getPointer(method.queryParameters);
+        if (data) {
+          return this.transformSchema(data, format);
+        }
+      }
+      return null;
     };
 
     this.getRequest = function(method, format) {
