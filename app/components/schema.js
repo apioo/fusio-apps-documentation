@@ -317,6 +317,11 @@ angular.module('evid.schema', [])
 
             var type = property.type ? property.type : 'string';
 
+            if (angular.isArray(type)) {
+              // if array type use the first type
+              type = type[0];
+            }
+
             if (type === 'object') {
               object = this.resolveRef(property);
               data[propertyName] = this.buildJsonObject(object);
