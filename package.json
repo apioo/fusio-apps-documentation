@@ -5,12 +5,28 @@
   "main": "Gruntfile.js",
   "author": "Christoph Kappestein",
   "license": "MIT",
+  "dependencies": {
+    "angular": "^1.7.8",
+    "angular-animate": "^1.7.8",
+    "angular-aria": "^1.7.8",
+    "angular-highlightjs": "0.7.*",
+    "angular-loader": "^1.7.8",
+    "angular-marked": "1.2.*",
+    "angular-material": "1.1.*",
+    "angular-messages": "^1.7.8",
+    "angular-mocks": "^1.7.8",
+    "angular-route": "^1.7.8",
+    "angular-sanitize": "^1.7.8",
+    "highlightjs": "9.12.*",
+    "js-yaml": "3.13.*",
+    "marked": "0.7.*"
+  },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-angular-templates": "^0.5.9",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-copy": "^0.8.2",
-    "grunt-contrib-cssmin": "^0.12.3",
-    "grunt-contrib-uglify": "^0.8.1"
+    "grunt": "^1.0.4",
+    "grunt-angular-templates": "^1.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^1.0.2"
   }
 }
