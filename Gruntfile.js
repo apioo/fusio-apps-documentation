@@ -37,8 +37,8 @@ module.exports = function(grunt){
           },
         },
         src: [
-          './bower_components/angular-material/angular-material.css',
-          './bower_components/highlightjs/styles/github.css',
+          './node_modules/angular-material/angular-material.css',
+          './node_modules/highlightjs/styles/github.css',
           './css/app.css'
         ],
         dest: './dist/evid.min.css'
@@ -46,7 +46,7 @@ module.exports = function(grunt){
     },
     uglify: {
       options: {
-        banner: '/*\n evid\n Copyright (C) 2015-2017 Christoph Kappestein\n License: MIT\n*/\n',
+        banner: '/*\n evid\n Copyright (C) 2015-2019 Christoph Kappestein\n License: MIT\n*/\n',
         mangle: false
       },
       dist: {
