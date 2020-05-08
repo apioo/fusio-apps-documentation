@@ -10,35 +10,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-  <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
-  <link rel="stylesheet" href="node_modules/highlightjs/styles/github.css">
-  <link rel="stylesheet" href="css/app.css">
-  <script src="node_modules/highlightjs/highlight.pack.js"></script>
-  <script src="node_modules/js-yaml/dist/js-yaml.js"></script>
-  <script src="node_modules/marked/marked.min.js"></script>
-  <script src="node_modules/angular/angular.js"></script>
-  <script src="node_modules/angular-animate/angular-animate.js"></script>
-  <script src="node_modules/angular-aria/angular-aria.js"></script>
-  <script src="node_modules/angular-loader/angular-loader.js"></script>
-  <script src="node_modules/angular-marked/dist/angular-marked.js"></script>
-  <script src="node_modules/angular-material/angular-material.js"></script>
-  <script src="node_modules/angular-route/angular-route.js"></script>
-  <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
-  <script src="node_modules/angular-highlightjs/angular-highlightjs.js"></script>
-  <script src="app/app.js"></script>
-  <script src="app/components/definition.js"></script>
-  <script src="app/components/registry.js"></script>
-  <script src="app/components/schema.js"></script>
-  <script src="app/api.js"></script>
-  <script src="app/page.js"></script>
+  <link rel="stylesheet" href="dist/evid.min.css">
+  <script src="dist/evid.min.js"></script>
   <script type="text/javascript">
   evid.config(function(evidProvider) {
     /**
      * Url to the PSX documentation endpoint
      */
-    var url = evidProvider.guessEndpointUrl(false) + 'doc';
-
-    evidProvider.setUrl(url);
+    evidProvider.setUrl('${API_URL}doc');
 
     /**
      * Paths which should be excluded from the documentation
@@ -51,7 +30,11 @@
      * Optional menu entries. Each menu entry must have the following format
      * { title: 'Getting started', icon: 'home', href: 'introduction.htm' }
      */
-    var menu = [{ title: 'Getting started', icon: 'home', href: 'intro.htm' }];
+    var menu = [{
+      title: 'Getting started',
+      icon: 'home',
+      href: 'getting_started.html'
+    }];
 
     evidProvider.setMenu(menu);
 
@@ -64,38 +47,38 @@
   </script>
 </head>
 <body layout="column" ng-controller="AppCtrl">
-  <md-toolbar class="md-toolbar-tools md-primary">
-    <div class="md-toolbar-tools">
-      <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidebar()">
-        <md-icon md-font-library="material-icons">menu</md-icon>
-      </md-button>
-      <h2>
-        <span>API Documentation</span>
-      </h2>
-    </div>
-  </md-toolbar>
-  <section layout="row" flex>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-      <md-content class="evid-menu">
-        <md-list flex>
-          <md-subheader class="md-primary" ng-if="menus.length > 0">Overview</md-subheader>
-          <md-list-item ng-repeat="menu in menus" class="md-2-line" ng-href="#!/page/{{ menu.title|slugify }}">
-            <md-icon md-font-library="material-icons">{{ menu.icon }}</md-icon>
-            <div class="md-list-item-text" layout="column">
-              <h3>{{ menu.title }}</h3>
-            </div>
-          </md-list-item>
-          <md-subheader class="md-primary">Endpoints</md-subheader>
-          <md-list-item ng-repeat="route in routings | orderBy: 'path'" class="md-2-line" ng-href="#!/api{{ route.path }}">
-            <md-icon md-font-library="material-icons">description</md-icon>
-            <div class="md-list-item-text" layout="column">
-              <h3>{{ route.path }}</h3>
-            </div>
-          </md-list-item>
-        </md-list>
-      </md-content>
-    </md-sidenav>
-    <md-content flex ng-view></md-content>
-  </section>
+<md-toolbar class="md-toolbar-tools md-primary">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidebar()">
+      <md-icon md-font-library="material-icons">menu</md-icon>
+    </md-button>
+    <h2>
+      <span>API Documentation</span>
+    </h2>
+  </div>
+</md-toolbar>
+<section layout="row" flex>
+  <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-content class="evid-menu">
+      <md-list flex>
+        <md-subheader class="md-primary" ng-if="menus.length > 0">Overview</md-subheader>
+        <md-list-item ng-repeat="menu in menus" class="md-2-line" ng-href="#!/page/{{ menu.title|slugify }}">
+          <md-icon md-font-library="material-icons">{{ menu.icon }}</md-icon>
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ menu.title }}</h3>
+          </div>
+        </md-list-item>
+        <md-subheader class="md-primary">Endpoints</md-subheader>
+        <md-list-item ng-repeat="route in routings | orderBy: 'path'" class="md-2-line" ng-href="#!/api{{ route.path }}">
+          <md-icon md-font-library="material-icons">description</md-icon>
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ route.path }}</h3>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </md-sidenav>
+  <md-content flex ng-view></md-content>
+</section>
 </body>
 </html>
