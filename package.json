@@ -1,7 +1,7 @@
 {
   "name": "evid",
   "version": "0.1.0",
-  "description": "Web API documentation viewer for the PSX framework",
+  "description": "Web API documentation viewer for Fusio",
   "main": "Gruntfile.js",
   "author": "Christoph Kappestein",
   "license": "MIT",

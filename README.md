@@ -1,16 +1,16 @@
 
-# Evid
+# Documentation
 
-Web API documentation viewer for the PSX framework. Connects to a PSX API 
+Web API documentation viewer for Fusio. Connects to a Fusio API 
 documentation endpoint and offers a clean presentation of the API. An example
-API is available at http://example.phpsx.org/documentation/
+API is available at http://demo.fusio-project.org/internal/#!/page/about
 
 ## Architecture
 
-It is also possible to use the viewer without using the PSX framework. You only
-have to provide a specific JSON API. In the following we will explain the 
-format. On the first request evid will make an AJAX call to the provided "url" 
-path. The response must contain all available routes of the API.
+It is also possible to use the viewer without Fusio. You only have to provide a
+specific JSON API. In the following we will explain the format. On the first
+request the app will make an AJAX call to the provided "url" path. The response
+must contain all available routes of the API.
 
     {
       "routings": [
@@ -51,7 +51,7 @@ path. The response must contain all available routes of the API.
       ]
     }
 
-If a user clicks on a detail link evid tries to get the detail link from the 
+If a user clicks on a detail link the app tries to get the detail link from the 
 index response. The response of the detail link should include the complete
 schema definition. The request and response keys contain a JSON pointer to the
 fitting schema definition.
