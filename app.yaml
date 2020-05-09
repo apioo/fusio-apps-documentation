@@ -1,0 +1,3 @@
+description: 'The documentation app simply provides an overview of all available endpoints. It is possible to export the API definition into other schema formats like i.e. OpenAPI.'
+screenshot: 'https://raw.githubusercontent.com/apioo/fusio/master/doc/_static/documentation.png'
+website: 'https://github.com/apioo/fusio-apps-documentation'
