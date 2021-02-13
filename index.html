@@ -17,7 +17,7 @@
     /**
      * Url to the PSX documentation endpoint
      */
-    evidProvider.setUrl('${API_URL}doc');
+    evidProvider.setUrl('${API_URL}system/doc');
 
     /**
      * Paths which should be excluded from the documentation
@@ -47,14 +47,12 @@
   </script>
 </head>
 <body layout="column" ng-controller="AppCtrl">
-<md-toolbar class="md-toolbar-tools md-primary">
+<md-toolbar class="md-primary">
   <div class="md-toolbar-tools">
     <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidebar()">
       <md-icon md-font-library="material-icons">menu</md-icon>
     </md-button>
-    <h2>
-      <span>API Documentation</span>
-    </h2>
+    <h2>API Documentation</h2>
   </div>
 </md-toolbar>
 <section layout="row" flex>
