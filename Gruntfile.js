@@ -44,9 +44,9 @@ module.exports = function(grunt){
         dest: './dist/evid.min.css'
       }
     },
-    uglify: {
+    terser: {
       options: {
-        banner: '/*\n evid\n Copyright (C) 2015-2019 Christoph Kappestein\n License: MIT\n*/\n',
+        ecma: 2016,
         mangle: false
       },
       dist: {
@@ -89,11 +89,11 @@ module.exports = function(grunt){
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-terser');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-angular-templates');
 
-  grunt.registerTask('default', ['uglify', 'ngtemplates', 'concat', 'cssmin']);
+  grunt.registerTask('default', ['terser', 'ngtemplates', 'concat', 'cssmin']);
 
 };
