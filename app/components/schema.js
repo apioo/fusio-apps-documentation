@@ -15,18 +15,13 @@ angular.module('evid.schema', [])
     function SchemaGenerator(definition) {
         this.definitions = definition.definitions;
         this.chunks = [];
+        this.generated = [];
 
         this.getHtml = function (methodName, method) {
             this.chunks = [];
+            this.generated = [];
 
             var html = '<div>';
-            if (method.description && angular.isString(method.description)) {
-                html += '<div class="evid-method-description">' + marked(method.description) + '</div>';
-            }
-
-            if (method.operationId && angular.isString(method.operationId)) {
-                html += '<div class="evid-method-operation-id">' + method.operationId + '</div>';
-            }
 
             if (method.tags && angular.isArray(method.tags)) {
                 html += '<div class="evid-method-tags">';
@@ -38,12 +33,23 @@ angular.module('evid.schema', [])
                 html += '</div>';
             }
 
+            if (method.description && angular.isString(method.description)) {
+                html += '<div class="evid-method-description">' + marked(method.description) + '</div>';
+            }
+
             html += '<div class="evid-schema-table">';
             html += '<table>';
             html += '<colgroup>';
             html += '<col width="30%">';
             html += '<col width="70%">';
             html += '</colgroup>';
+
+            if (method.operationId && angular.isString(method.operationId)) {
+                html += '<tr>';
+                html += '<td><span class="evid-property">Operation-Id</span></td>';
+                html += '<td><span class="evid-property-type">' + method.operationId + '</span></td>';
+                html += '</tr>';
+            }
 
             // parameters
             if (method.queryParameters && angular.isString(method.queryParameters)) {
@@ -88,6 +94,12 @@ angular.module('evid.schema', [])
         };
 
         this.generateDefinition = function(name) {
+            if (this.generated.includes(name)) {
+                return;
+            }
+
+            this.generated.push(name);
+
             var type = this.resolveType(name);
             if (type.type === 'object' && type.properties) {
                 return this.generateStruct(name, type);
@@ -114,7 +126,8 @@ angular.module('evid.schema', [])
             }
 
             var required = type.required;
-            
+
+            var types = [];
             var generics = [];
             var props = {};
             for (var key in type.properties) {
@@ -136,9 +149,15 @@ angular.module('evid.schema', [])
                     required: isRequired,
                     comment: property.description,
                 };
+
+                types = types.concat(this.getInnerTypes(property, type))
             }
 
             this.chunks.push(this.writeStruct(name, props, parent, generics, type));
+
+            for (var i = 0; i < types.length; i++) {
+                this.generateDefinition(types[i]);
+            }
         }
 
         this.generateMap = function(name, type) {
@@ -162,7 +181,7 @@ angular.module('evid.schema', [])
         }
 
         this.writeStruct = function(name, props, parent, generics, origin) {
-            var title = '<a>' + name + '</a>';
+            var title = '<a id="' + name + '">' + name + '</a>';
             if (generics && angular.isArray(generics)) {
                 var parts = [];
                 for (var i = 0; i < generics.length; i++) {
@@ -347,7 +366,7 @@ angular.module('evid.schema', [])
             } else if (property.$generic && angular.isString(property.$generic)) {
                 return origin.$template[property.$generic];
             } else if (property.$ref && angular.isString(property.$ref)) {
-                return property.$ref;
+                return '<a>' + property.$ref + '</a>';
             } else if (property.type && angular.isString(property.type)) {
                 typeName = this.ucfirst(property.type);
             } else {
@@ -445,5 +464,34 @@ angular.module('evid.schema', [])
                 .replace(/'/g, "&#039;");
         };
 
+        this.getInnerTypes = function (type, origin) {
+            var i;
+            var result = [];
+            if (type.additionalProperties) {
+                result.push(this.getInnerRefType(type.additionalProperties, origin));
+            } else if (type.items) {
+                result.push(this.getInnerRefType(type.items, origin));
+            } else if (type.oneOf && angular.isArray(type.oneOf)) {
+                for (i = 0; i < type.oneOf.length; i++) {
+                    result.push(this.getInnerRefType(type.oneOf[i], origin));
+                }
+            } else if (type.allOf && angular.isArray(type.allOf)) {
+                for (i = 0; i < type.allOf.length; i++) {
+                    result.push(this.getInnerRefType(type.allOf[i], origin));
+                }
+            }
+
+            return result;
+        };
+
+        this.getInnerRefType = function (type, origin) {
+            if (type.$ref && angular.isString(type.$ref)) {
+                return type.$ref;
+            } else if (type.$generic && angular.isString(type.$generic)) {
+                return origin.$template[type.$generic];
+            } else {
+                return null;
+            }
+        };
     }
 });
