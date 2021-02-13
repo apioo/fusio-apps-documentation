@@ -113,9 +113,7 @@ angular.module('evid.api', [])
         }
 
         if ($scope.api.methods[methodName]) {
-            var apiSchema = schema.create($scope.api);
-            var data = apiSchema.getJsonSampleRequest($scope.api.methods[methodName]);
-
+            var data = {};
             return JSON.stringify(data, null, 4);
         } else {
             return '';
