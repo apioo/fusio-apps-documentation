@@ -138,7 +138,7 @@ angular.module('evid.schema', [])
 
                 var isRequired = false;
                 if (required && angular.isArray(required)) {
-                    isRequired = required.contains(key);
+                    isRequired = required.includes(key);
                 }
 
                 props[key] = {
