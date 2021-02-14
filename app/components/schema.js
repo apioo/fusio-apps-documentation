@@ -101,7 +101,7 @@ angular.module('evid.schema', [])
             this.generated.push(name);
 
             var type = this.resolveType(name);
-            if (type.type === 'object' && type.properties) {
+            if (type.type === 'object' && (type.properties || type.$extends)) {
                 return this.generateStruct(name, type);
             } else if (type.type === 'object' && type.additionalProperties) {
                 return this.generateMap(name, type);
@@ -120,9 +120,7 @@ angular.module('evid.schema', [])
             var parent = type.$extends;
             if (parent) {
                 var parentType = this.resolveType(parent)
-                if (parentType.type === 'object' && parentType.properties) {
-                    this.generateStruct(parent, parent)
-                }
+                type = Object.assign(parentType, type);
             }
 
             var required = type.required;
@@ -210,10 +208,6 @@ angular.module('evid.schema', [])
                 if (parts.length > 0) {
                     title+= '&lt;' + parts.join(', ') + '&gt;'
                 }
-            }
-
-            if (parent) {
-                title+= ' extends <a>' + parent + '</a>';
             }
 
             var resp = '';
