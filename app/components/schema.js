@@ -161,7 +161,22 @@ angular.module('evid.schema', [])
         }
 
         this.generateMap = function(name, type) {
+            var property = type.additionalProperties;
+            var props = {};
 
+            props['*'] = {
+                name: '*',
+                type: this.getType(property, type),
+                required: false,
+                comment: type.description,
+            };
+
+            this.chunks.push(this.writeStruct(name, props, null, null, type));
+
+            var types = this.getInnerTypes(property, type);
+            for (var i = 0; i < types.length; i++) {
+                this.generateDefinition(types[i]);
+            }
         }
 
         this.generateArray = function(name, type) {
@@ -479,9 +494,13 @@ angular.module('evid.schema', [])
                 for (i = 0; i < type.allOf.length; i++) {
                     result.push(this.getInnerRefType(type.allOf[i], origin));
                 }
+            } else {
+                result.push(this.getInnerRefType(type, origin));
             }
 
-            return result;
+            return result.filter(function(value) {
+                return value !== null;
+            });
         };
 
         this.getInnerRefType = function (type, origin) {
