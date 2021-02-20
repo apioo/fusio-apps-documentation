@@ -74,7 +74,7 @@ angular.module('evid.definition', [])
         this.description = data.description;
         this.contactUrl = data.contactUrl;
         this.contactEmail = data.contactEmail;
-        this.apps = angular.isArray(data.apps) ? data.apps : [];
+        this.apps = angular.isObject(data.apps) ? data.apps : {};
         this.categories = angular.isArray(data.categories) ? data.categories : [];
         this.scopes = angular.isArray(data.scopes) ? data.scopes : [];
         this.links = angular.isArray(data.links) ? data.links : [];

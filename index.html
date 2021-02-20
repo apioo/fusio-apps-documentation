@@ -61,7 +61,7 @@
         </md-menu-item>
       </md-menu-content>
     </md-menu>
-    <md-menu ng-if="apps.length > 0">
+    <md-menu ng-if="isAppsNotEmpty()">
       <button ng-click="$mdMenu.open()">Apps</button>
       <md-menu-content>
         <md-menu-item ng-repeat="(name, url) in apps">

@@ -159,6 +159,10 @@ evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'evid', 'definition
         });
     }
 
+    $scope.isAppsNotEmpty = function() {
+        return angular.isObject($scope.apps) && Object.keys($scope.apps).length > 0;
+    }
+
     $scope.loadRoutings();
 
 }]);
