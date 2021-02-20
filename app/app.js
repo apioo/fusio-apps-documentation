@@ -88,7 +88,7 @@ evid.config(['$routeProvider', function ($routeProvider) {
 
 evid.config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-        .primaryPalette('blue')
+        .primaryPalette('deep-orange')
         .accentPalette('grey');
 });
 

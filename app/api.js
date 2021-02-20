@@ -96,7 +96,7 @@ angular.module('evid.api', [])
         var i = 0;
         for (var methodName in $scope.methods) {
             if ($scope.methods.hasOwnProperty(methodName)) {
-                if (i == $scope.selectedMethod) {
+                if (i === $scope.selectedMethod) {
                     return methodName;
                 }
 
@@ -109,7 +109,7 @@ angular.module('evid.api', [])
 
     $scope.getBodySample = function () {
         var methodName = $scope.getSelectedMethod();
-        if (methodName == 'GET' || methodName == 'DELETE') {
+        if (methodName === 'GET' || methodName === 'DELETE') {
             return '';
         }
 
@@ -159,7 +159,7 @@ angular.module('evid.api', [])
             }
 
             var body = null;
-            if ($scope.request.method == 'POST' || $scope.request.method == 'PUT') {
+            if ($scope.request.method === 'POST' || $scope.request.method === 'PUT') {
                 body = $scope.request.body;
             }
 
