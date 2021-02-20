@@ -7,7 +7,7 @@
       <md-icon md-menu-origin md-font-library="material-icons">send</md-icon>
     </md-button>
     <md-menu ng-if="api.links && api.links.length > 0">
-      <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdOpenMenu($event)">
+      <md-button aria-label="Export schema" class="md-icon-button evid-api-export" ng-click="$mdMenu.open($event)">
         <md-icon md-menu-origin md-font-library="material-icons">archive</md-icon>
       </md-button>
       <md-menu-content width="3">
