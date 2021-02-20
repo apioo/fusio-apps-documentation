@@ -2,7 +2,7 @@
 
 angular.module('evid.api', [])
 
-.controller('ApiCtrl', ['$scope', '$http', '$compile', '$sce', '$mdSidenav', '$mdDialog', '$routeParams', 'definition', 'schema', 'evid', function ($scope, $http, $compile, $sce, $mdSidenav, $mdDialog, $routeParams, definition, schema, evid) {
+.controller('ApiCtrl', ['$scope', '$http', '$compile', '$sce', '$mdSidenav', '$mdDialog', '$routeParams', 'definition', 'registry', 'schema', 'evid', function ($scope, $http, $compile, $sce, $mdSidenav, $mdDialog, $routeParams, definition, registry, schema, evid) {
 
     $scope.api = {};
     $scope.methods = {};
@@ -10,7 +10,8 @@ angular.module('evid.api', [])
     $scope.selectedMethod = '';
 
     $scope.loadApi = function () {
-        definition.initialize().then(function (def) {
+        definition.initialize().then(function (result) {
+            var def = result.def;
             var url = def.getLinkByRel('detail');
             if (url) {
                 var path = $routeParams.api ? $routeParams.api : null;

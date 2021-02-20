@@ -10,27 +10,90 @@ angular.module('evid.definition', [])
      * gets resolved. The response is saved in the global registry so we make the
      * http request only once
      */
-    this.initialize = function () {
-        if (registry.has('definition')) {
+    this.initialize = function (category) {
+        function loadHome() {
+            if (registry.has('home')) {
+                return $q(function (resolve, reject) {
+                    resolve(registry.get('home'));
+                });
+            }
+
             return $q(function (resolve, reject) {
-                resolve(registry.get('definition'));
+                $http.get(evid.url).then(function (response) {
+                    var home = new Home(response.data);
+                    registry.set('home', home);
+                    resolve(home);
+                }, function () {
+                    reject();
+                });
+            });
+        }
+
+        function loadDocumentation(home, category) {
+            if (registry.has('definition_' + category)) {
+                return $q(function (resolve, reject) {
+                    resolve(registry.get('definition_' + category));
+                });
+            }
+
+            var docUrl = home.getLinkByRel('documentation')
+            if (category) {
+                docUrl+= '?filter=' + category;
+            }
+
+            return $q(function (resolve, reject) {
+                $http.get(docUrl).then(function (response) {
+                    var def = new Def(response.data, evid.exclude);
+                    registry.set('definition_' + category, def);
+                    resolve(def);
+                }, function() {
+                    reject();
+                });
             });
         }
 
         return $q(function (resolve, reject) {
-            $http.get(evid.url).then(function (response) {
-                registry.set('definition', new Def(response.data, evid.exclude));
-                resolve(registry.get('definition'));
-            }, function () {
+            loadHome().then((home) => {
+                loadDocumentation(home, category).then((def) => {
+                    resolve({
+                        def,
+                        home
+                    });
+                }, () => {
+                    reject();
+                });
+            }, () => {
                 reject();
             });
         });
     };
 
-    function Def(api, exclude) {
+    function Home(data) {
+        this.apiVersion = data.apiVersion;
+        this.title = data.title;
+        this.description = data.description;
+        this.contactUrl = data.contactUrl;
+        this.contactEmail = data.contactEmail;
+        this.apps = angular.isArray(data.apps) ? data.apps : [];
+        this.categories = angular.isArray(data.categories) ? data.categories : [];
+        this.scopes = angular.isArray(data.scopes) ? data.scopes : [];
+        this.links = angular.isArray(data.links) ? data.links : [];
 
-        this.api = api;
+        this.getLinkByRel = function (rel) {
+            for (var i = 0; i < this.links.length; i++) {
+                if (this.links[i].rel === rel) {
+                    return this.links[i].href;
+                }
+            }
+
+            return null;
+        };
+    }
+
+    function Def(data, exclude) {
+        this.api = data;
         this.exclude = exclude;
+        this.links = angular.isArray(data.links) ? data.links : [];
 
         this.getRoutings = function () {
             var routings = [];
@@ -70,7 +133,7 @@ angular.module('evid.definition', [])
         this.hasEmptyRoute = function () {
             var routings = this.getRoutings();
             for (var i = 0; i < routings.length; i++) {
-                if (routings[i].path == '/') {
+                if (routings[i].path === '/') {
                     return true;
                 }
             }
@@ -78,17 +141,14 @@ angular.module('evid.definition', [])
         };
 
         this.getLinkByRel = function (rel) {
-            if (this.api && this.api.links && angular.isArray(this.api.links)) {
-                for (var i = 0; i < this.api.links.length; i++) {
-                    if (this.api.links[i].rel == rel) {
-                        return this.api.links[i].href;
-                    }
+            for (var i = 0; i < this.links.length; i++) {
+                if (this.links[i].rel === rel) {
+                    return this.links[i].href;
                 }
             }
 
             return null;
         };
-
     }
 
 }]);

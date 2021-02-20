@@ -17,7 +17,7 @@
     /**
      * Url to the PSX documentation endpoint
      */
-    evidProvider.setUrl('${API_URL}system/doc');
+    evidProvider.setUrl('${API_URL}');
 
     /**
      * Paths which should be excluded from the documentation
@@ -47,13 +47,37 @@
   </script>
 </head>
 <body layout="column" ng-controller="AppCtrl">
-<md-toolbar class="md-primary">
-  <div class="md-toolbar-tools">
-    <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidebar()">
-      <md-icon md-font-library="material-icons">menu</md-icon>
-    </md-button>
-    <h2>API Documentation</h2>
-  </div>
+<md-toolbar class="md-toolbar-tools">
+  <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleSidebar()">
+    <md-icon md-font-library="material-icons">menu</md-icon>
+  </md-button>
+  <h2>{{ title }}</h2>
+  <md-menu-bar>
+    <md-menu ng-if="categories.length > 0">
+      <button ng-click="$mdMenu.open()">Category</button>
+      <md-menu-content>
+        <md-menu-item ng-repeat="category in categories">
+          <md-button ng-click="loadCategory(category)">{{ category|ucfirst }}</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+    <md-menu ng-if="apps.length > 0">
+      <button ng-click="$mdMenu.open()">Apps</button>
+      <md-menu-content>
+        <md-menu-item ng-repeat="(name, url) in apps">
+          <md-button ng-href="{{ url }}">{{ name|ucfirst }}</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+    <md-menu ng-if="links.length > 0">
+      <button ng-click="$mdMenu.open()">Links</button>
+      <md-menu-content>
+        <md-menu-item ng-repeat="link in links">
+          <md-button ng-href="{{ link.href }}">{{ link.rel|ucfirst }}</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </md-menu-bar>
 </md-toolbar>
 <section layout="row" flex>
   <md-sidenav class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">

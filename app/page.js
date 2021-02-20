@@ -17,7 +17,7 @@ angular.module('evid.page', [])
         }
 
         for (var i = 0; i < evid.menu.length; i++) {
-            if (slugify(evid.menu[i].title) == title || title === false) {
+            if (slugify(evid.menu[i].title) === title || title === false) {
                 item = evid.menu[i];
                 break;
             }

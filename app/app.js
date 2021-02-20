@@ -126,9 +126,11 @@ evid.filter('ucfirst', function () {
     };
 });
 
-evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'evid', 'definition', function ($scope, $http, $mdSidenav, evid, definition) {
+evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'evid', 'definition', 'registry', function ($scope, $http, $mdSidenav, evid, definition, registry) {
 
     $scope.menus = evid.menu;
+    $scope.categories = [];
+    $scope.apps = [];
     $scope.routings = [];
 
     $scope.toggleSidebar = function () {
@@ -136,10 +138,26 @@ evid.controller('AppCtrl', ['$scope', '$http', '$mdSidenav', 'evid', 'definition
     };
 
     $scope.loadRoutings = function () {
-        definition.initialize().then(function (def) {
-            $scope.routings = def.getRoutings();
+        definition.initialize().then(function (result) {
+            $scope.apiVersion = result.home.apiVersion;
+            $scope.title = result.home.title;
+            $scope.description = result.home.description;
+            $scope.contactUrl = result.home.contactUrl;
+            $scope.contactEmail = result.home.contactEmail;
+            $scope.apps = result.home.apps;
+            $scope.categories = result.home.categories;
+            $scope.scopes = result.home.scopes;
+            $scope.links = result.home.links;
+
+            $scope.routings = result.def.getRoutings();
         });
     };
+
+    $scope.loadCategory = function(category) {
+        definition.initialize(category).then(function (result) {
+            $scope.routings = result.def.getRoutings();
+        });
+    }
 
     $scope.loadRoutings();
 
