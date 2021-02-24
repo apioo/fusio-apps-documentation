@@ -3,150 +3,247 @@
 
 Web API documentation viewer for Fusio. Connects to a Fusio API 
 documentation endpoint and offers a clean presentation of the API. An example
-API is available at http://demo.fusio-project.org/internal/#!/page/about
+API is available at https://demo.fusio-project.org/apps/internal/#!/page/about
 
 ## Architecture
 
-It is also possible to use the viewer without Fusio. You only have to provide a
-specific JSON API. In the following we will explain the format. On the first
-request the app will make an AJAX call to the provided "url" path. The response
-must contain all available routes of the API.
+It is also possible to use the viewer without Fusio. The first request to the
+API root must return a JSON response containing a link to the documentation endpoint
+i.e.:
 
-    {
-      "routings": [
+```json
+{
+    "apiVersion": "5.0.1.0",
+    "title": "Fusio",
+    "categories": [
+        "authorization",
+        "system",
+        "consumer",
+        "backend",
+        "default"
+    ],
+    "scopes": [
+        "default",
+        "todo"
+    ],
+    "apps": {
+        "fusio": "http:\/\/127.0.0.1\/projects\/fusio\/public\/apps\/fusio"
+    },
+    "links": [
         {
-          "path": "/todo/:todo_id",
-          "methods": [
-            "GET",
-            "POST",
-            "PUT",
-            "DELETE"
-          ],
-          "version": "*"
+            "rel": "root",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/"
         },
         {
-          "path": "/todo",
-          "methods": [
-            "GET",
-            "POST",
-            "PUT",
-            "DELETE"
-          ],
-          "version": "*"
-        }
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "http://127.0.0.1/projects/fusio/public/index.php/doc"
+            "rel": "openapi",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/openapi\/*\/*"
         },
         {
-          "rel": "detail",
-          "href": "http://127.0.0.1/projects/fusio/public/index.php/doc/{version}/{path}"
+            "rel": "documentation",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/doc"
         },
         {
-          "rel": "api",
-          "href": "http://127.0.0.1/projects/fusio/public/index.php/"
+            "rel": "route",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/route"
+        },
+        {
+            "rel": "health",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/health"
+        },
+        {
+            "rel": "jsonrpc",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/jsonrpc"
+        },
+        {
+            "rel": "oauth2",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/authorization\/token"
+        },
+        {
+            "rel": "whoami",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/authorization\/whoami"
+        },
+        {
+            "rel": "about",
+            "href": "https:\/\/www.fusio-project.org"
         }
-      ]
-    }
+    ]
+}
+```
 
-If a user clicks on a detail link the app tries to get the detail link from the 
-index response. The response of the detail link should include the complete
-schema definition. The request and response keys contain a JSON pointer to the
-fitting schema definition.
+The documentation endpoint must return a list of all available endpoints:
 
-    {
-      "path": "/todo",
-      "version": "*",
-      "status": 4,
-      "description": "",
-      "schema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "id": "urn:schema.phpsx.org#",
-        "definitions": {
-          "Todo": {
-            "type": "object",
-            "title": "todo",
-            "properties": {
-              "id": {
-                "type": "integer"
-              },
-              "status": {
-                "type": "integer"
-              },
-              "title": {
-                "type": "string"
-              },
-              "insertDate": {
-                "type": "string",
-                "format": "date-time"
-              }
-            },
-            "required": [
-              "title"
-            ]
-          },
-          "Collection": {
-            "type": "object",
-            "title": "collection",
-            "properties": {
-              "totalCount": {
-                "type": "integer"
-              },
-              "entry": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Todo"
-                }
-              }
-            }
-          },
-          "Message": {
-            "type": "object",
-            "title": "message",
-            "properties": {
-              "success": {
-                "type": "boolean"
-              },
-              "message": {
-                "type": "string"
-              }
-            }
-          },
-          "GET-200-response": {
-            "$ref": "#/definitions/Collection"
-          },
-          "POST-request": {
-            "$ref": "#/definitions/Todo"
-          },
-          "POST-200-response": {
-            "$ref": "#/definitions/Message"
-          }
+```json
+{
+    "routings": [
+        {
+            "path": "\/",
+            "methods": [
+                "ANY"
+            ],
+            "version": "*"
+        },
+        {
+            "path": "\/todo",
+            "methods": [
+                "ANY"
+            ],
+            "version": "*"
+        },
+        {
+            "path": "\/todo\/:todo_id",
+            "methods": [
+                "ANY"
+            ],
+            "version": "*"
         }
-      },
-      "methods": {
+    ],
+    "links": [
+        {
+            "rel": "self",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/doc"
+        },
+        {
+            "rel": "detail",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/doc\/{version}\/{path}"
+        },
+        {
+            "rel": "api",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/"
+        }
+    ]
+}
+```
+
+The detail endpoint must return the following format:
+
+```json
+{
+    "status": 4,
+    "path": "\/todo",
+    "methods": {
         "GET": {
-          "responses": {
-            "200": "#/definitions/GET-200-response"
-          }
+            "operationId": "get.todo",
+            "description": "Returns all todo entries",
+            "tags": [
+                "todo"
+            ],
+            "responses": {
+                "200": "App_Model_Todo_Collection",
+                "500": "App_Model_Message"
+            }
         },
         "POST": {
-          "request": "#/definitions/POST-request",
-          "responses": {
-            "200": "#/definitions/POST-200-response"
-          }
+            "operationId": "post.todo",
+            "description": "Creates a new todo entry",
+            "security": {
+                "app": [
+                    "todo"
+                ]
+            },
+            "tags": [
+                "todo"
+            ],
+            "request": "App_Model_Todo_Create",
+            "responses": {
+                "201": "App_Model_Message",
+                "500": "App_Model_Message"
+            }
         }
-      },
-      "links": [
+    },
+    "definitions": {
+        "App_Model_Message": {
+            "$ref": "Message"
+        },
+        "App_Model_Todo_Collection": {
+            "$ref": "Todo_Collection"
+        },
+        "App_Model_Todo_Create": {
+            "$ref": "Todo_Create"
+        },
+        "Collection": {
+            "type": "object",
+            "properties": {
+                "totalResults": {
+                    "type": "integer"
+                },
+                "entry": {
+                    "type": "array",
+                    "items": {
+                        "$generic": "T"
+                    }
+                }
+            }
+        },
+        "Message": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Todo": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "Todo_Collection": {
+            "$ref": "Collection",
+            "$template": {
+                "T": "Todo"
+            }
+        },
+        "Todo_Create": {
+            "$extends": "Todo",
+            "type": "object",
+            "required": [
+                "title"
+            ]
+        }
+    },
+    "links": [
         {
-          "rel": "swagger",
-          "href": "/projects/fusio/public/index.php/export/swagger/*/todo"
+            "rel": "client-go",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/client-go\/*\/todo"
         },
         {
-          "rel": "raml",
-          "href": "/projects/fusio/public/index.php/export/raml/*/todo"
+            "rel": "client-java",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/client-java\/*\/todo"
+        },
+        {
+            "rel": "client-php",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/client-php\/*\/todo"
+        },
+        {
+            "rel": "client-typescript",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/client-typescript\/*\/todo"
+        },
+        {
+            "rel": "markup-html",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/markup-html\/*\/todo"
+        },
+        {
+            "rel": "markup-markdown",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/markup-markdown\/*\/todo"
+        },
+        {
+            "rel": "spec-typeschema",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/spec-typeschema\/*\/todo"
+        },
+        {
+            "rel": "spec-openapi",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/spec-openapi\/*\/todo"
+        },
+        {
+            "rel": "spec-raml",
+            "href": "http:\/\/127.0.0.1\/projects\/fusio\/public\/index.php\/system\/export\/spec-raml\/*\/todo"
         }
-      ]
-    }
-
+    ]
+}
+```
