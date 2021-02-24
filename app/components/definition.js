@@ -37,6 +37,10 @@ angular.module('evid.definition', [])
             }
 
             var docUrl = home.getLinkByRel('documentation')
+            if (!docUrl) {
+                docUrl = evid.url + '/system/doc';
+            }
+
             if (category) {
                 docUrl+= '?filter=' + category;
             }
